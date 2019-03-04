@@ -2,11 +2,11 @@ package PSINS;
 
 public final class PSINS {
     private static final double PI = 3.141592653589793238;
-    private static final double PI_2 = PI/2.0;
-    private static final double PI_4 = PI/4.0;
+    private static final double PI_2 = PI / 2.0;
+    private static final double PI_4 = PI / 4.0;
     private static final double EPS = 2.220446049e-16F;
     private static final double INF = 3.402823466e+30F;
-    private static final double _2PI = PI*2;
+    private static final double _2PI = PI * 2;
 
     // determine the sign of 'val' with the sensitivity of 'eps'
     public static int sign(double val, double eps) {
@@ -21,8 +21,9 @@ public final class PSINS {
         }
         return s;
     }
-    public static int sign(double val){
-        return sign(val,EPS);
+
+    public static int sign(double val) {
+        return sign(val, EPS);
     }
 
     // set double value 'val' between range 'minVal' and 'maxVal'
@@ -56,31 +57,35 @@ public final class PSINS {
         else if (dyaw <= -PI) dyaw += _2PI;
         return dyaw;
     }
-    public static double asinEx(double x){
+
+    public static double asinEx(double x) {
         return Math.asin(range(x, -1.0, 1.0));
     }
-    public static double acosEx(double x){
+
+    public static double acosEx(double x) {
         return Math.acos(range(x, -1.0, 1.0));
     }
-    public static double CC180toC360(double yaw){
-        return ( (yaw)>0.0 ? (_2PI-(yaw)) : -(yaw) );   // counter-clockwise +-180deg . clockwise 0~360deg for yaw
+
+    public static double CC180toC360(double yaw) {
+        return ((yaw) > 0.0 ? (_2PI - (yaw)) : -(yaw));   // counter-clockwise +-180deg . clockwise 0~360deg for yaw
     }
-    public static double C360toCC180(double yaw){
-        return ( (yaw)>=PI ? (_2PI-(yaw)) : -(yaw) );   // clockwise 0~360deg . counter-clockwise +-180deg for yaw
+
+    public static double C360toCC180(double yaw) {
+        return ((yaw) >= PI ? (_2PI - (yaw)) : -(yaw));   // clockwise 0~360deg . counter-clockwise +-180deg for yaw
     }
 
 
     // Max Matrix Dimension define
-    public static int MMD =15;
-    public static int MMD2 =MMD*MMD;
+    public static int MMD = 15;
+    public static int MMD2 = MMD * MMD;
 
     // global variables and functions, can not be changed in any way
-    
-    final CVect3 I31=new CVect3(1, 1, 1), O31=new CVect3(0, 0, 0);
-    final CQuat qI=new CQuat(1.0, 0, 0, 0);
-    final CMat3 I33=new CMat3(1, 0, 0, 0, 1, 0, 0, 0, 1), O33=new CMat3(0, 0, 0, 0, 0, 0, 0, 0, 0);
-    final CVect On1=new CVect(MMD, 0.0);
-    final CGLV glv=new CGLV();
+
+    final CVect3 I31 = new CVect3(1, 1, 1), O31 = new CVect3(0, 0, 0);
+    final CQuat qI = new CQuat(1.0, 0, 0, 0);
+    final CMat3 I33 = new CMat3(1, 0, 0, 0, 1, 0, 0, 0, 1), O33 = new CMat3(0, 0, 0, 0, 0, 0, 0, 0, 0);
+    final CVect On1 = new CVect(MMD, 0.0);
+    final CGLV glv = new CGLV();
 
     public class CGLV {
         public double Re, f, g0, wie;                                            // the Earth's parameters
@@ -88,27 +93,27 @@ public final class PSINS {
         public double mg, ug, deg, min, sec, hur, ppm, ppmpsh;                    // commonly used units
         public double dps, dph, dpsh, dphpsh, ugpsh, ugpsHz, mpsh, mpspsh, secpsh;
 
-        private double sqrt(double d){
+        private double sqrt(double d) {
             return Math.sqrt(d);
         }
 
-        CGLV(){
+        CGLV() {
             this(6378137.0);
         }
 
-        CGLV(double Re){
-            this(Re,(1.0 / 298.257));
+        CGLV(double Re) {
+            this(Re, (1.0 / 298.257));
         }
 
-        CGLV(double Re , double f){
-            this(Re,f,7.2921151467e-5);
+        CGLV(double Re, double f) {
+            this(Re, f, 7.2921151467e-5);
         }
 
-        CGLV(double Re , double f , double wie0){
-            this(Re,f,wie0,9.7803267714);
+        CGLV(double Re, double f, double wie0) {
+            this(Re, f, wie0, 9.7803267714);
         }
 
-        CGLV(double Re , double f , double wie0, double g0) {
+        CGLV(double Re, double f, double wie0, double g0) {
             this.Re = Re;
             this.f = f;
             this.wie = wie0;
@@ -139,54 +144,67 @@ public final class PSINS {
         public double i, j, k;
 
         public CVect3(double xx) {
-            this(xx,0.0);
-        }
-        public CVect3(double xx,double yy) {
-            this(xx,yy,0.0);
-        }
-        public CVect3(double xx, double yy, double zz){
-            i=xx;
-            j=yy;
-            k=zz;
+            this(xx, 0.0);
         }
 
-        public CVect3(double pdata[]){
+        public CVect3(double xx, double yy) {
+            this(xx, yy, 0.0);
+        }
+
+        public CVect3(double xx, double yy, double zz) {
+            i = xx;
+            j = yy;
+            k = zz;
+        }
+
+        public CVect3(double pdata[]) {
             i = pdata[0];
             j = pdata[1];
             k = pdata[2];
         }
 
-        CVect3 add(final CVect3 v){
+        CVect3 add(final CVect3 v) {
             return new CVect3(this.i + v.i, this.j + v.j, this.k + v.k);
         }                 // vector addition
-        CVect3 sub(final CVect3 v){
+
+        CVect3 sub(final CVect3 v) {
             return new CVect3(this.i - v.i, this.j - v.j, this.k - v.k);
         }                 // vector subtraction
+
         CVect3 multi(final CVect3 v) {
             return new CVect3(this.j * v.k - this.k * v.j, this.k * v.i - this.i * v.k, this.i * v.j - this.j * v.i);
-        };                // vector cross multiplication
+        }
+
+        ;                // vector cross multiplication
+
         CVect3 multi(double f) {
             return new CVect3(i * f, j * f, k * f);
         }                 // vector multiply scale
+
         CVect3 div(double f) {
             return new CVect3(i * f, j * f, k * f);
         }                 // vector divide scale
-//        CVect3 operator+=(final CVect3 v);                    // vector addition
+
+        //        CVect3 operator+=(final CVect3 v);                    // vector addition
 //        CVect3 operator-=(final CVect3 v);                    // vector subtraction
 //        CVect3 operator*=(double f);                            // vector multiply scale
 //        CVect3 operator/=(double f);                            // vector divide scale
         boolean IsZero() {
             return IsZero(EPS);
         }
+
         boolean IsZero(double eps) {
             return (i < eps && i > -eps && j < eps && j > -eps && k < eps && k > -eps);
         }                   // assert if all elements are zeros
-        boolean IsZeroXY(){
+
+        boolean IsZeroXY() {
             return IsZeroXY(EPS);
         }
+
         boolean IsZeroXY(double eps) {
             return (i < eps && i > -eps && j < eps && j > -eps);
         }                  // assert if xy-elements are zeros
+
         boolean IsNaN() {
             return false; //(_isnan(i) || _isnan(j) || _isnan(k));
         }                   // assert if any element is NaN
@@ -207,24 +225,31 @@ public final class PSINS {
 
     public class CQuat {
         public double q0, q1, q2, q3;
-        public CQuat(double qq0){
-            this(qq0,0.0);
-        }
-        public CQuat(double qq0,double qq1){
-            this(qq0,qq1,0.0);
-        }
-        public CQuat(double qq0,double qq1,double qq2) {
-            this(qq0, qq1, qq2, 0.0);
-        }
-        public CQuat(double qq0, double qq1, double qq2, double qq3){
-            q0 = qq0; q1 = qq1; q2 = qq2; q3 = qq3;
+
+        public CQuat(double qq0) {
+            this(qq0, 0.0);
         }
 
-        public CQuat(double pdata[]){
-            q0=pdata[0];
-            q1=pdata[1];
-            q2=pdata[2];
-            q3=pdata[3];
+        public CQuat(double qq0, double qq1) {
+            this(qq0, qq1, 0.0);
+        }
+
+        public CQuat(double qq0, double qq1, double qq2) {
+            this(qq0, qq1, qq2, 0.0);
+        }
+
+        public CQuat(double qq0, double qq1, double qq2, double qq3) {
+            q0 = qq0;
+            q1 = qq1;
+            q2 = qq2;
+            q3 = qq3;
+        }
+
+        public CQuat(double pdata[]) {
+            q0 = pdata[0];
+            q1 = pdata[1];
+            q2 = pdata[2];
+            q3 = pdata[3];
         }
 
 //        CQuat operator+(final CVect3 &phi) final;    // true quaternion add misalign angles
@@ -244,25 +269,37 @@ public final class PSINS {
     public class CMat3 {
         public double e00, e01, e02, e10, e11, e12, e20, e21, e22;
 
-        CMat3(){
+        CMat3() {
         }
 
         CMat3(double xx, double xy, double xz,
               double yx, double yy, double yz,
-              double zx, double zy, double zz){
-            e00 = xx; e01 = xy; e02 = xz;
-            e10 = yx; e11 = yy; e12 = yz;
-            e20 = zx; e21 = zy; e22 = zz;
+              double zx, double zy, double zz) {
+            e00 = xx;
+            e01 = xy;
+            e02 = xz;
+            e10 = yx;
+            e11 = yy;
+            e12 = yz;
+            e20 = zx;
+            e21 = zy;
+            e22 = zz;
         }
 
-        CMat3(final CVect3 v0, final CVect3 v1, final CVect3 v2){
-            e00 = v0.i; e01 = v0.j; e02 = v0.k;
-            e10 = v1.i; e11 = v1.j; e12 = v1.k;
-            e20 = v2.i; e21 = v2.j; e22 = v2.k;
+        CMat3(final CVect3 v0, final CVect3 v1, final CVect3 v2) {
+            e00 = v0.i;
+            e01 = v0.j;
+            e02 = v0.k;
+            e10 = v1.i;
+            e11 = v1.j;
+            e12 = v1.k;
+            e20 = v2.i;
+            e21 = v2.j;
+            e22 = v2.k;
         }  // M = [v0; v1; v2]
 
         CMat3 add(final CMat3 mat) {
-            CMat3 mtmp=new CMat3();
+            CMat3 mtmp = new CMat3();
             mtmp.e00 = e00 + mat.e00;
             mtmp.e01 = e01 + mat.e01;
             mtmp.e02 = e02 + mat.e02;
@@ -276,7 +313,7 @@ public final class PSINS {
         }                    // matirx addition
 
         CMat3 sub(final CMat3 mat) {
-            CMat3 mtmp=new CMat3();
+            CMat3 mtmp = new CMat3();
             mtmp.e00 = e00 - mat.e00;
             mtmp.e01 = e01 - mat.e01;
             mtmp.e02 = e02 - mat.e02;
@@ -290,7 +327,7 @@ public final class PSINS {
         }                    // matirx subtraction
 
         CMat3 multi(final CMat3 mat) {
-            CMat3 mtmp=new CMat3();
+            CMat3 mtmp = new CMat3();
             mtmp.e00 = e00 * mat.e00 + e01 * mat.e10 + e02 * mat.e20;
             mtmp.e01 = e00 * mat.e01 + e01 * mat.e11 + e02 * mat.e21;
             mtmp.e02 = e00 * mat.e02 + e01 * mat.e12 + e02 * mat.e22;
@@ -327,32 +364,32 @@ public final class PSINS {
 
     public class CVect {
         public int row, clm;
-        double dd[]=new double[MMD];
+        double dd[] = new double[MMD];
 
-        CVect(){}
-
-        CVect(int row0){
-            this(row0,1);
+        CVect() {
         }
 
-        CVect(int row0, int clm0){
+        CVect(int row0) {
+            this(row0, 1);
+        }
+
+        CVect(int row0, int clm0) {
             if (clm0 == 1) {
                 row = row0;
                 clm = 1;
-            }
-            else {
+            } else {
                 row = 1;
                 clm = clm0;
             }
         }
 
-        CVect(int row0, double f){
+        CVect(int row0, double f) {
             row = row0;
             clm = 1;
             for (int i = 0; i < row; i++) dd[i] = f;
         }
 
-        CVect(int row0, final double pf[]){
+        CVect(int row0, final double pf[]) {
             row = row0;
             clm = 1;
 //            memcpy(dd, pf, row * sizeof(double));
@@ -361,7 +398,7 @@ public final class PSINS {
 
 //        CVect(int row0, double f, double f1, ...);
 
-        CVect(final CVect3 v){
+        CVect(final CVect3 v) {
             row = 3;
             clm = 1;
             dd[0] = v.i;
@@ -369,7 +406,7 @@ public final class PSINS {
             dd[2] = v.k;
         }
 
-        CVect(final CVect3 v1, final CVect3 v2){
+        CVect(final CVect3 v1, final CVect3 v2) {
             row = 6;
             clm = 1;
             dd[0] = v1.i;
@@ -399,25 +436,25 @@ public final class PSINS {
 
     public class CMat {
         public int row, clm, rc;
-        double dd[]=new double[MMD2];
+        double dd[] = new double[MMD2];
 
-        CMat(){
+        CMat() {
         }
 
-        CMat(int row0, int clm0){
+        CMat(int row0, int clm0) {
             row = row0;
             clm = clm0;
             rc = row * clm;
         }
 
-        CMat(int row0, int clm0, double f){
+        CMat(int row0, int clm0, double f) {
             row = row0;
             clm = clm0;
             rc = row * clm;
             for (int pd = 0; pd < rc; pd++) dd[pd] = f;
         }
 
-        CMat(int row0, int clm0, double pf[]){
+        CMat(int row0, int clm0, double pf[]) {
             row = row0;
             clm = clm0;
             rc = row * clm;
@@ -425,48 +462,48 @@ public final class PSINS {
             System.arraycopy(pf, 0, dd, 0, rc);
         }
 
-//        void SetDiag(double f, ...);
+        //        void SetDiag(double f, ...);
 //
 //        void SetDiag2(double f, ...);
 //
-        CMat add(final CMat m0){
-            assert(row == m0.row && clm == m0.clm);
+        CMat add(final CMat m0) {
+            assert (row == m0.row && clm == m0.clm);
             CMat mtmp = new CMat(row, clm);
 //            double *p = mtmp.dd, *pEnd = &mtmp.dd[rc];
 //            final double *p1 = this.dd, *p2 = m0.dd;
 //            while (p < pEnd) { *p++ = (*p1++) + (*p2++); }
-            for (int i=0;i<rc;i++){
-                mtmp.dd[i]=dd[i]+m0.dd[i];
+            for (int i = 0; i < rc; i++) {
+                mtmp.dd[i] = dd[i] + m0.dd[i];
             }
             return mtmp;
         }                // matirx addition
 
-        CMat sub(final CMat m0){
-            assert(row == m0.row && clm == m0.clm);
-            CMat mtmp=new CMat(row, clm);
+        CMat sub(final CMat m0) {
+            assert (row == m0.row && clm == m0.clm);
+            CMat mtmp = new CMat(row, clm);
 //            double *p = mtmp.dd, *pEnd = &mtmp.dd[rc];
 //            final double *p1 = this.dd, *p2 = m0.dd;
 //            while (p < pEnd) { *p++ = (*p1++) - (*p2++); }
-            for (int i=0;i<rc;i++){
-                mtmp.dd[i]=dd[i]-m0.dd[i];
+            for (int i = 0; i < rc; i++) {
+                mtmp.dd[i] = dd[i] - m0.dd[i];
             }
             return mtmp;
         }                // matirx subtraction
 
         CMat multi(double f) {
-            CMat mtmp=new CMat(row, clm);
+            CMat mtmp = new CMat(row, clm);
 //            double *p = mtmp.dd, *pEnd = &mtmp.dd[rc];
 //            final double *p1 = this.dd;
 //            while (p < pEnd) { *p++ = (*p1++) * f; }
-            for (int i=0;i<rc;i++){
-                mtmp.dd[i]=dd[i]*f;
+            for (int i = 0; i < rc; i++) {
+                mtmp.dd[i] = dd[i] * f;
             }
             return mtmp;
         }                        // matirx multiply scale
 
         CVect multi(final CVect v) {
-            assert(this.clm == v.row);
-            CVect vtmp=new CVect(this.row);
+            assert (this.clm == v.row);
+            CVect vtmp = new CVect(this.row);
 //            double *p = vtmp.dd, *pEnd = &vtmp.dd[vtmp.row];
 //            final double *p1ij = this.dd, *p2End = &v.dd[v.row];
 //            for (; p < pEnd; p++) {
@@ -475,19 +512,19 @@ public final class PSINS {
 //                for (; p2j < p2End; p1ij++, p2j++) f += (*p1ij) * (*p2j);
 //                *p = f;
 //            }
-            for (int i=0;i<vtmp.row;i++){
-                double f=0;
-                for (int j=0;j<v.row;j++){
-                    f+=dd[j]*v.dd[j];
+            for (int i = 0; i < vtmp.row; i++) {
+                double f = 0;
+                for (int j = 0; j < v.row; j++) {
+                    f += dd[j] * v.dd[j];
                 }
-                vtmp.dd[i]=f;
+                vtmp.dd[i] = f;
             }
             return vtmp;
         }                // matirx multiply vector
 
         CMat multi(final CMat m0) {
-            assert(this.clm == m0.row);
-            CMat mtmp=new CMat(this.row, m0.clm);
+            assert (this.clm == m0.row);
+            CMat mtmp = new CMat(this.row, m0.clm);
             int m = this.row, k = this.clm, n = m0.clm;
 //            double *p = mtmp.dd;
 //            final double *p1i = this.dd, *p2 = m0.dd;
@@ -500,13 +537,13 @@ public final class PSINS {
 //                *p++ = f;
 //                }
 //            }
-            for (int i=0;i<m;i++){
-                for (int j=0;j<n;j++){
-                    double f=0;
-                    for (int ii=0;ii<k;ii++){
-                        f+=dd[ii]*m0.dd[j+n*ii];
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
+                    double f = 0;
+                    for (int ii = 0; ii < k; ii++) {
+                        f += dd[ii] * m0.dd[j + n * ii];
                     }
-                    mtmp.dd[i*m+j]=f;
+                    mtmp.dd[i * m + j] = f;
                 }
             }
             return mtmp;
@@ -518,102 +555,106 @@ public final class PSINS {
 //        CMat &operator*=(double f);                            // matirx multiply scale
 //        CMat &operator++();                                    // 1.0 + diagonal
 
-        double getElement(int r, int c){
+        double getElement(int r, int c) {
             return dd[r * clm + c];
         }                    // get element m(r,c)
-        void setElement(int r, int c,double n){
+
+        void setElement(int r, int c, double n) {
             dd[r * clm + c] = n;
         }                    // set element m(r,c)
 
-        void SetRow(int i, final CVect v){
-            assert(clm == v.clm);
+        void SetRow(int i, final CVect v) {
+            assert (clm == v.clm);
 //            final double *p = v.dd;
 //            for (double *p1 = &dd[i * clm], *pEnd = p1 + clm; p1 < pEnd; p++, p1++)
 //                *p1 = *p;
-            for (int j=i*clm;j<i*clm+clm;j++){
-                dd[j]=v.dd[j];
+            for (int j = i * clm; j < i * clm + clm; j++) {
+                dd[j] = v.dd[j];
             }
         }                    // set i-row from vector
 
-        void SetClm(int j, final CVect v){
-            assert(row == v.row);
+        void SetClm(int j, final CVect v) {
+            assert (row == v.row);
 //            final double *p = v.dd;
 //            for (double *p1 = &dd[j], *pEnd = &dd[rc]; p1 < pEnd; p++, p1 += clm)
 //                *p1 = *p;
-            for (int i=0;i*clm+j<rc;i++){
-                dd[j+i*clm]=v.dd[i];
+            for (int i = 0; i * clm + j < rc; i++) {
+                dd[j + i * clm] = v.dd[i];
             }
         }                    // set j-column from vector
 
         CVect GetRow(int i) {
-            CVect v=new CVect();
+            CVect v = new CVect();
             v.row = 1;
             v.clm = clm;
 //            final double *p1 = &dd[i * clm], *pEnd = p1 + clm;
 //            for (double *p = v.dd; p1 < pEnd; p++, p1++) *p = *p1;
-            for (int j=0;j<clm;j++){
-                v.dd[j]=dd[i*clm+j];
+            for (int j = 0; j < clm; j++) {
+                v.dd[j] = dd[i * clm + j];
             }
             return v;
         }                          // get i-row from matrix
 
         CVect GetClm(int j) {
-            CVect v=new CVect();
+            CVect v = new CVect();
             v.row = row;
             v.clm = 1;
 //            final double *p1 = &dd[j], *pEnd = &dd[rc];
 //            for (double *p = v.dd; p1 < pEnd; p++, p1 += clm) *p = *p1;
-            for (int i=0;i<row;i++){
-                v.dd[i]=dd[j+i*clm];
+            for (int i = 0; i < row; i++) {
+                v.dd[i] = dd[j + i * clm];
             }
             return v;
         }                            // get j-column from matrix
 
-        void SetClmVect3(int i, int j, final CVect3 v){
+        void SetClmVect3(int i, int j, final CVect3 v) {
 //            double *p = &dd[i * clm + j];
 //            *p = v.i;
 //            p += clm;
 //            *p = v.j;
 //            p += clm;
 //            *p = v.k;
-            dd[i*clm+j]=v.i;
-            dd[++i*clm+j]=v.j;
-            dd[++i*clm+j]=v.k;
+            dd[i * clm + j] = v.i;
+            dd[++i * clm + j] = v.j;
+            dd[++i * clm + j] = v.k;
         }    // set i...(i+2)-row&j-column from CVect3
-        void SetRowVect3(int i, int j, final CVect3 v){
+
+        void SetRowVect3(int i, int j, final CVect3 v) {
             //*(CVect3 *) &dd[i * clm + j] = v;
-            dd[i*clm+j]=v.i;
-            dd[i*clm+j+1]=v.j;
-            dd[i*clm+j+2]=v.j;
+            dd[i * clm + j] = v.i;
+            dd[i * clm + j + 1] = v.j;
+            dd[i * clm + j + 2] = v.j;
         }    // set i-row&j...(j+2)-column from CVect3
-        void SetMat3(int i, int j, final CMat3 m){
+
+        void SetMat3(int i, int j, final CMat3 m) {
 //            double *p = &dd[i * clm + j];
 //            *(CVect3 *) p = *(CVect3 *) &m.e00;
 //            p += clm;
 //            *(CVect3 *) p = *(CVect3 *) &m.e10;
 //            p += clm;
 //            *(CVect3 *) p = *(CVect3 *) &m.e20;
-            dd[i*clm+j]=m.e00;
-            dd[i*clm+j+1]=m.e01;
-            dd[i*clm+j+2]=m.e02;
-            dd[++i*clm+j]=m.e10;
-            dd[i*clm+j+1]=m.e11;
-            dd[i*clm+j+2]=m.e12;
-            dd[++i*clm+j]=m.e20;
-            dd[i*clm+j+1]=m.e21;
-            dd[i*clm+j+2]=m.e22;
+            dd[i * clm + j] = m.e00;
+            dd[i * clm + j + 1] = m.e01;
+            dd[i * clm + j + 2] = m.e02;
+            dd[++i * clm + j] = m.e10;
+            dd[i * clm + j + 1] = m.e11;
+            dd[i * clm + j + 2] = m.e12;
+            dd[++i * clm + j] = m.e20;
+            dd[i * clm + j + 1] = m.e21;
+            dd[i * clm + j + 2] = m.e22;
         }            // set i...(i+2)-row&j...(j+2)-comumn from CMat3
 
-        void ZeroRow(int i){
+        void ZeroRow(int i) {
 //            for (double *p = &dd[i * clm], *pEnd = p + clm; p < pEnd; p++) *p = 0.0;
-            for (int j=i*clm;j<i*clm+clm;j++){
-                dd[j]=0;
+            for (int j = i * clm; j < i * clm + clm; j++) {
+                dd[j] = 0;
             }
         }                                // set i-row to 0
-        void ZeroClm(int j){
+
+        void ZeroClm(int j) {
 //            for (double *p = &dd[j], *pEnd = &dd[rc]; p < pEnd; p += clm) *p = 0.0;
-            for (int i=j;i<rc;i+=clm){
-                dd[i]=0;
+            for (int i = j; i < rc; i += clm) {
+                dd[i] = 0;
             }
         }                                // set j-column to 0
 
@@ -632,31 +673,37 @@ public final class PSINS {
     }
 
     public class CRAvar {
-        final int RAMAX=10;
-        int nR0, maxCount, Rmaxflag[]=new int[RAMAX];
-        double ts, R0[]=new double[RAMAX], Rmax[]=new double[RAMAX], Rmin[]=new double[RAMAX],
-                tau[]=new double[RAMAX], r0[]=new doulbe[RAMAX];
+        final int RAMAX = 10;
+        int nR0, maxCount, Rmaxflag[] = new int[RAMAX];
+        double ts, R0[] = new double[RAMAX], Rmax[] = new double[RAMAX], Rmin[] = new double[RAMAX],
+                tau[] = new double[RAMAX], r0[] = new doulbe[RAMAX];
 
-        CRAvar(){}
-        CRAvar(int nR0){
-            this(nR0,2);
+        CRAvar() {
         }
-        CRAvar(int nR0, int maxCount0){
-            assert(nR0 < RAMAX);
+
+        CRAvar(int nR0) {
+            this(nR0, 2);
+        }
+
+        CRAvar(int nR0, int maxCount0) {
+            assert (nR0 < RAMAX);
             this.nR0 = nR0;
             maxCount = maxCount0;
         }
 
-        void set(double r0,double tau){
-            set(r0,tau,0.0);
+        void set(double r0, double tau) {
+            set(r0, tau, 0.0);
         }
-        void set(double r0,double tau,double rmax){
-            set(r0,tau,rmax,0.0);
+
+        void set(double r0, double tau, double rmax) {
+            set(r0, tau, rmax, 0.0);
         }
-        void set(double r0,double tau,double rmax,double rmin){
-            set(r0,tau,rmax,rmin,0);
+
+        void set(double r0, double tau, double rmax, double rmin) {
+            set(r0, tau, rmax, rmin, 0);
         }
-        void set(double r0, double tau, double rmax, double rmin, int i){
+
+        void set(double r0, double tau, double rmax, double rmin, int i) {
             this.R0[i] = r0 * r0;
             this.tau[i] = tau;
             this.r0[i] = 0.0;
@@ -666,43 +713,83 @@ public final class PSINS {
         }
 
 
-        void set(final CVect3 r0, final CVect3 tau){
-            set(r0,tau,O31);
+        void set(final CVect3 r0, final CVect3 tau) {
+            set(r0, tau, O31);
         }
-        void set(final CVect3 r0, final CVect3 tau, final CVect3 rmax){
-            set(r0,tau,rmax,O31);
+
+        void set(final CVect3 r0, final CVect3 tau, final CVect3 rmax) {
+            set(r0, tau, rmax, O31);
         }
-        void set(final CVect3 r0, final CVect3 tau, final CVect3 rmax, final CVect3 rmin){
+
+        void set(final CVect3 r0, final CVect3 tau, final CVect3 rmax, final CVect3 rmin) {
 //            final double *pr0 = &r0.i, *ptau = &tau.i, *prmax = &rmax.i, *prmin = &rmin.i;
 //            for (int i = 0; i < 3; i++, pr0++, ptau++, prmax++, prmin++)
 //                set(*pr0, *ptau, *prmax, *prmin, i);
-            set(r0.i,tau.i,rmax.i,rmin.i);
-            set(r0.j,tau.j,rmax.j,rmin.j);
-            set(r0.k,tau.k,rmax.k,rmin.k);
+            set(r0.i, tau.i, rmax.i, rmin.i, 0);
+            set(r0.j, tau.j, rmax.j, rmin.j, 1);
+            set(r0.k, tau.k, rmax.k, rmin.k, 2);
         }
 
-        void set(final CVect r0, final CVect tau){
-            set(r0,tau,On1);
+        void set(final CVect r0, final CVect tau) {
+            set(r0, tau, On1);
         }
-        void set(final CVect r0, final CVect tau, final CVect rmax){
-            set(r0,tau,rmax,On1);
+
+        void set(final CVect r0, final CVect tau, final CVect rmax) {
+            set(r0, tau, rmax, On1);
         }
-        void set(final CVect r0, final CVect tau, final CVect rmax, final CVect rmin){
+
+        void set(final CVect r0, final CVect tau, final CVect rmax, final CVect rmin) {
 //            const double *pr0 = r0.dd, *ptau = tau.dd, *prmax = rmax.dd, *prmin = rmin.dd;
 //            for (int i = 0; i < nR0; i++, pr0++, ptau++, prmax++, prmin++)
 //                set(*pr0, *ptau, *prmax, *prmin, i);
-            for (int i=0;i<nR0;i++){
-                set(r0.dd[i],tau.dd[i],rmax.dd[i],rmin.dd[i],i);
+            for (int i = 0; i < nR0; i++) {
+                set(r0.dd[i], tau.dd[i], rmax.dd[i], rmin.dd[i], i);
             }
         }
 
-//        void Update(double r, double ts, int i = 0);
-//
-//        void Update(final CVect3 &r, double ts);
-//
-//        void Update(final CVect &r, double ts);
-//
-//        double operator()(int k);            // get element sqrt(R0(k))
-    };
+        void Update(double r, double ts) {
+            Update(r, ts, 0);
+        }
+
+        void Update(double r, double ts, int i) {
+            double tstau = ts > tau[i] ? 1.0 : ts / tau[i];
+            double dr2 = r - r0[i];
+            dr2 = dr2 * dr2;
+            r0[i] = r;
+            if (dr2 > R0[i]) R0[i] = dr2;
+            else R0[i] = (1.0 - tstau) * R0[i] + tstau * dr2;
+            if (R0[i] < Rmin[i]) R0[i] = Rmin[i];
+            if (R0[i] > Rmax[i]) {
+                R0[i] = Rmax[i];
+                Rmaxflag[i] = maxCount;
+            } else {
+                Rmaxflag[i] -= (Rmaxflag[i] > 0 ? 1 : 0);
+            }
+        }
+
+        void Update(final CVect3 r, double ts) {
+//            const double *pr = &r.i;
+//            for (int i = 0; i < 3; i++, pr++)
+//                Update(*pr, ts, i);
+            Update(r.i, ts, 0);
+            Update(r.j, ts, 1);
+            Update(r.k, ts, 2);
+        }
+
+        void Update(final CVect r, double ts) {
+//            const double *pr = r.dd;
+//            for (int i = 0; i < nR0; i++, pr++)
+//                Update( * pr, ts, i);
+            for (int i=0;i<nR0;i++){
+                Update(r.dd[i],ts,i);
+            }
+        }
+
+        double getElement(int k){
+            return Rmaxflag[k]!=0 ? INF : Math.sqrt(R0[k]);
+        }            // get element sqrt(R0(k))
+    }
+
+    ;
 
 }
