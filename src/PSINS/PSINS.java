@@ -150,10 +150,10 @@ public final class PSINS {
             k=zz;
         }
 
-        public CVect3(Double pdata){
-            i = pdata++;
-            j = pdata++;
-            k = pdata++;
+        public CVect3(double pdata[]){
+            i = pdata[0];
+            j = pdata[1];
+            k = pdata[2];
         }
 
         CVect3 add(final CVect3 v){
@@ -220,11 +220,11 @@ public final class PSINS {
             q0 = qq0; q1 = qq1; q2 = qq2; q3 = qq3;
         }
 
-        public CQuat(Double pdata){
-            q0=pdata++;
-            q1=pdata++;
-            q2=pdata++;
-            q3=pdata++;
+        public CQuat(double pdata[]){
+            q0=pdata[0];
+            q1=pdata[1];
+            q2=pdata[2];
+            q3=pdata[3];
         }
 
 //        CQuat operator+(final CVect3 &phi) final;    // true quaternion add misalign angles
