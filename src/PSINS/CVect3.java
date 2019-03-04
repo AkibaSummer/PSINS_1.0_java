@@ -7,6 +7,12 @@ import static PSINS.PSINS.EPS;
 public class CVect3 {
     public double i, j, k;
 
+
+    @Override
+    public CVect3 clone() {
+        return new CVect3(i, j, k);
+    }
+
     public CVect3(double xx) {
         this(xx, 0.0);
     }

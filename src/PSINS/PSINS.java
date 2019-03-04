@@ -1,8 +1,10 @@
 package PSINS;
+
 import PSINS.*;
+
 public final class PSINS {
     public static final double PI = 3.141592653589793238;
-    public  static final double PI_2 = PI / 2.0;
+    public static final double PI_2 = PI / 2.0;
     public static final double PI_4 = PI / 4.0;
     public static final double EPS = 2.220446049e-16F;
     public static final double INF = 3.402823466e+30F;
@@ -86,13 +88,4 @@ public final class PSINS {
     public final static CMat3 I33 = new CMat3(1, 0, 0, 0, 1, 0, 0, 0, 1), O33 = new CMat3(0, 0, 0, 0, 0, 0, 0, 0, 0);
     public final static CVect On1 = new CVect(MMD, 0.0);
     public final static CGLV glv = new CGLV();
-
-
-
-
-
-
-
-
-
 }
