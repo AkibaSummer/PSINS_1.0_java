@@ -234,14 +234,14 @@ public class CMat {
         }
     }                                // set j-column to 0
 
-//        friend CMat array2mat(final double *f, int r, int c);    // convert array to mat
-//        friend CMat operator~(final CMat &m);                // matirx transposition
-//        friend void symmetry(CMat &m);                        // matirx symmetrization
-//        friend double norm1(CMat &m);                        // 1-norm
-//        friend CVect diag(final CMat &m);                    // diagonal of a matrix
-//        friend CMat diag(final CVect &v);                    // diagonal matrix
-//        friend void RowMul(CMat &m, final CMat &m0, final CMat &m1, int r); // m(r,:)=m0(r,:)*m1
-//        friend void RowMulT(CMat &m, final CMat &m0, final CMat &m1, int r); // m(r,:)=m0(r,:)*m1'
+//        static CMat array2mat(final double *f, int r, int c);    // convert array to mat
+//        static CMat operator~(final CMat &m);                // matirx transposition
+//        static void symmetry(CMat &m);                        // matirx symmetrization
+//        static double norm1(CMat &m);                        // 1-norm
+//        static CVect diag(final CMat &m);                    // diagonal of a matrix
+//        static CMat diag(final CVect &v);                    // diagonal matrix
+//        static void RowMul(CMat &m, final CMat &m0, final CMat &m1, int r); // m(r,:)=m0(r,:)*m1
+//        static void RowMulT(CMat &m, final CMat &m0, final CMat &m1, int r); // m(r,:)=m0(r,:)*m1'
 //        #ifdef MAT_COUNT_STATISTIC
 //                static int iCount, iMax;
 //            ~CMat(void);

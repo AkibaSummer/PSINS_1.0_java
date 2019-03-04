@@ -2,6 +2,9 @@ package PSINS;
 
 import PSINS.*;
 
+import static PSINS.PSINS.asinEx;
+import static PSINS.PSINS.atan2Ex;
+
 public class CMat3 {
     public double e00, e01, e02, e10, e11, e12, e20, e21, e22;
 
@@ -93,15 +96,25 @@ public class CMat3 {
                 e20 * v.i + e21 * v.j + e22 * v.k);
     }                // matirx multiply vector
 
-//        friend CMat3 operator-(final CMat3 &m);                    // minus
-//        friend CMat3 operator~(final CMat3 &m);                    // matirx transposition
-//        friend CMat3 operator*(double f, final CMat3 &m);        // scale multiply matirx
-//        friend double det(final CMat3 &m);                        // matirx determination
-//        friend CMat3 inv(final CMat3 &m);                        // matirx inverse
-//        friend CVect3 diag(final CMat3 &m);                        // diagonal of a matrix
-//        friend CMat3 diag(final CVect3 &v);                        // diagonal matrix
-//        friend CMat3 dv2att(CVect3 &va1, final CVect3 &va2, CVect3 &vb1,
+    //        static CMat3 operator-(final CMat3 &m);                    // minus
+
+    CMat3 trans() {
+        return new CMat3(e00, e10, e20, e01, e11, e21, e02, e12, e22);
+    }                    // matirx transposition
+
+    //        static CMat3 operator*(double f, final CMat3 &m);        // scale multiply matirx
+//        static double det(final CMat3 &m);                        // matirx determination
+//        static CMat3 inv(final CMat3 &m);                        // matirx inverse
+//        static CVect3 diag(final CMat3 &m);                        // diagonal of a matrix
+//        static CMat3 diag(final CVect3 &v);                        // diagonal matrix
+//        static CMat3 dv2att(CVect3 &va1, final CVect3 &va2, CVect3 &vb1,
 //                        final CVect3 &vb2);  // attitude determination using double-vector
-//        friend CVect3 m2att(final CMat3 &Cnb);                    // DCM to Euler angles
-//        friend CQuat m2qua(final CMat3 &Cnb);                    // DCM to quaternion
+    static CVect3 m2att(final CMat3 Cnb) {
+        CVect3 att = new CVect3();
+        att.i = asinEx(Cnb.e21);
+        att.j = atan2Ex(-Cnb.e20, Cnb.e22);
+        att.k = atan2Ex(-Cnb.e01, Cnb.e11);
+        return att;
+    }                    // DCM to Euler angles
+//        static CQuat m2qua(final CMat3 &Cnb);                    // DCM to quaternion
 }

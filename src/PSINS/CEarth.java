@@ -73,8 +73,8 @@ public class CEarth {
     }
 
     void Update(final CVect3 pos, final CVect3 vn) {
-        this.pos = pos;
-        this.vn = vn;
+        this.pos = pos.clone();
+        this.vn = vn.clone();
         sl = Math.sin(pos.i);
         cl = Math.cos(pos.i);
         tl = sl / cl;

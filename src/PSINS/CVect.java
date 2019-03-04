@@ -79,6 +79,6 @@ public class CVect {
 //        CVect operator*(final CMat &m) final;        // row-vector multiply matrix
 //        CMat operator*(final CVect &v) final;        // 1xn vector multiply nx1 vector, or nx1 vector multiply 1xn vector
 //        double &operator()(int r);                    // vector element
-//        friend CVect operator~(final CVect &v);        // vector transposition
-//        friend double norm(final CVect &v);            // vector norm
+//        static CVect operator~(final CVect &v);        // vector transposition
+//        static double norm(final CVect &v);            // vector norm
 }
