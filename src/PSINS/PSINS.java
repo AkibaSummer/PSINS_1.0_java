@@ -241,7 +241,7 @@ public final class PSINS {
 //        friend CVect3 q2rv(final CQuat &q);            // quaternion to rotation vector
     }
 
-    class CMat3 {
+    public class CMat3 {
         public double e00, e01, e02, e10, e11, e12, e20, e21, e22;
 
         CMat3(){
@@ -325,7 +325,7 @@ public final class PSINS {
 //        friend CQuat m2qua(final CMat3 &Cnb);                    // DCM to quaternion
     }
 
-    class CVect {
+    public class CVect {
         public int row, clm;
         double dd[]=new double[MMD];
 
@@ -397,7 +397,7 @@ public final class PSINS {
 //        friend double norm(final CVect &v);            // vector norm
     }
 
-    class CMat {
+    public class CMat {
         public int row, clm, rc;
         double dd[]=new double[MMD2];
 
@@ -527,7 +527,7 @@ public final class PSINS {
 
         void SetRow(int i, final CVect v){
             assert(clm == v.clm);
-//            const double *p = v.dd;
+//            final double *p = v.dd;
 //            for (double *p1 = &dd[i * clm], *pEnd = p1 + clm; p1 < pEnd; p++, p1++)
 //                *p1 = *p;
             for (int j=i*clm;j<i*clm+clm;j++){
@@ -537,7 +537,7 @@ public final class PSINS {
 
         void SetClm(int j, final CVect v){
             assert(row == v.row);
-//            const double *p = v.dd;
+//            final double *p = v.dd;
 //            for (double *p1 = &dd[j], *pEnd = &dd[rc]; p1 < pEnd; p++, p1 += clm)
 //                *p1 = *p;
             for (int i=0;i*clm+j<rc;i++){
@@ -549,7 +549,7 @@ public final class PSINS {
             CVect v=new CVect();
             v.row = 1;
             v.clm = clm;
-//            const double *p1 = &dd[i * clm], *pEnd = p1 + clm;
+//            final double *p1 = &dd[i * clm], *pEnd = p1 + clm;
 //            for (double *p = v.dd; p1 < pEnd; p++, p1++) *p = *p1;
             for (int j=0;j<clm;j++){
                 v.dd[j]=dd[i*clm+j];
@@ -561,7 +561,7 @@ public final class PSINS {
             CVect v=new CVect();
             v.row = row;
             v.clm = 1;
-//            const double *p1 = &dd[j], *pEnd = &dd[rc];
+//            final double *p1 = &dd[j], *pEnd = &dd[rc];
 //            for (double *p = v.dd; p1 < pEnd; p++, p1 += clm) *p = *p1;
             for (int i=0;i<row;i++){
                 v.dd[i]=dd[j+i*clm];
@@ -631,6 +631,65 @@ public final class PSINS {
 //        #endif
     }
 
+    public class CRAvar {
+        final int RAMAX=10;
+        int nR0, maxCount, Rmaxflag[]=new int[RAMAX];
+        double ts, R0[]=new double[RAMAX], Rmax[]=new double[RAMAX], Rmin[]=new double[RAMAX],
+                tau[]=new double[RAMAX], r0[]=new doulbe[RAMAX];
 
+        CRAvar(){}
+        CRAvar(int nR0){
+            this(nR0,2);
+        }
+        CRAvar(int nR0, int maxCount0){
+            assert(nR0 < RAMAX);
+            this.nR0 = nR0;
+            maxCount = maxCount0;
+        }
+
+        void set(double r0,double tau){
+            set(r0,tau,0.0);
+        }
+        void set(double r0,double tau,double rmax){
+            set(r0,tau,rmax,0.0);
+        }
+        void set(double r0,double tau,double rmax,double rmin){
+            set(r0,tau,rmax,rmin,0);
+        }
+        void set(double r0, double tau, double rmax, double rmin, int i){
+            this.R0[i] = r0 * r0;
+            this.tau[i] = tau;
+            this.r0[i] = 0.0;
+            Rmaxflag[i] = maxCount;
+            this.Rmax[i] = rmax == 0.0 ? 100.0 * this.R0[i] : rmax * rmax;
+            this.Rmin[i] = rmin == 0.0 ? 0.01 * this.R0[i] : rmin * rmin;
+        }
+
+
+        void set(final CVect3 r0, final CVect3 tau){
+            set(r0,tau,O31);
+        }
+        void set(final CVect3 r0, final CVect3 tau, final CVect3 rmax){
+            set(r0,tau,rmax,O31);
+        }
+        void set(final CVect3 r0, final CVect3 tau, final CVect3 rmax, final CVect3 rmin){
+//            final double *pr0 = &r0.i, *ptau = &tau.i, *prmax = &rmax.i, *prmin = &rmin.i;
+//            for (int i = 0; i < 3; i++, pr0++, ptau++, prmax++, prmin++)
+//                set(*pr0, *ptau, *prmax, *prmin, i);
+            set(r0.i,tau.i,rmax.i,rmin.i);
+            set(r0.j,tau.j,rmax.j,rmin.j);
+            set(r0.k,tau.k,rmax.k,rmin.k);
+        }
+
+//        void set(final CVect &r0, final CVect &tau, final CVect &rmax = On1, final CVect &rmin = On1);
+//
+//        void Update(double r, double ts, int i = 0);
+//
+//        void Update(final CVect3 &r, double ts);
+//
+//        void Update(final CVect &r, double ts);
+//
+//        double operator()(int k);            // get element sqrt(R0(k))
+    };
 
 }
