@@ -5,6 +5,14 @@ import PSINS.*;
 public class CMat3 {
     public double e00, e01, e02, e10, e11, e12, e20, e21, e22;
 
+    @Override
+    public CMat3 clone() {
+        CMat3 ret = new CMat3(e00, e01, e02,
+                e10, e11, e12,
+                e20, e21, e22);
+        return ret;
+    }
+
     CMat3() {
     }
 

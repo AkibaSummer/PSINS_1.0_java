@@ -8,6 +8,13 @@ public class CVect {
     public int row, clm;
     double dd[] = new double[MMD];
 
+    @Override
+    public CVect clone() {
+        CVect ret = new CVect(row, clm);
+        ret.dd = dd.clone();
+        return ret;
+    }
+
     CVect() {
     }
 

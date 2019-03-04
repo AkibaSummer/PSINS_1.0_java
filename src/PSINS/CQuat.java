@@ -5,6 +5,12 @@ import PSINS.*;
 public class CQuat {
     public double q0, q1, q2, q3;
 
+    @Override
+    public CQuat clone() {
+        CQuat ret = new CQuat(q0, q1, q2, q3);
+        return ret;
+    }
+
     public CQuat(double qq0) {
         this(qq0, 0.0);
     }

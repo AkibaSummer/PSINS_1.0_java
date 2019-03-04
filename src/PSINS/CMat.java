@@ -8,6 +8,12 @@ public class CMat {
     public int row, clm, rc;
     double dd[] = new double[MMD2];
 
+    @Override
+    public CMat clone() {
+        CMat ret = new CMat(row,clm,dd);
+        return ret;
+    }
+
     CMat() {
     }
 

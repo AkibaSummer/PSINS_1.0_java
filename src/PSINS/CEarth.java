@@ -12,6 +12,40 @@ public class CEarth {
     double sl, sl2, sl4, cl, tl, RMh, RNh, clRNh, f_RMh, f_RNh, f_clRNh;
     CVect3 pos, vn, wnie, wnen, wnin, gn, gcc;
 
+    @Override
+    public CEarth clone() {
+        CEarth ret = new CEarth();
+
+        ret.a = a;
+        ret.b = b;
+        ret.f = f;
+        ret.e = e;
+        ret.e2 = e2;
+        ret.wie = wie;
+
+        ret.sl = sl;
+        ret.sl2 = sl2;
+        ret.sl4 = sl4;
+        ret.cl = cl;
+        ret.tl = tl;
+        ret.RMh = RMh;
+        ret.RNh = RNh;
+        ret.clRNh = clRNh;
+        ret.f_RMh = f_RMh;
+        ret.f_RNh = f_RNh;
+        ret.f_clRNh = f_clRNh;
+
+        ret.pos = pos.clone();
+        ret.vn = vn.clone();
+        ret.wnie = wnie.clone();
+        ret.wnen = wnen.clone();
+        ret.wnin = wnin.clone();
+        ret.gn = gn.clone();
+        ret.gcc = gcc.clone();
+
+        return ret;
+    }
+
     CEarth() {
         this(glv.Re);
     }

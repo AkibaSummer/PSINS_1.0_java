@@ -11,6 +11,20 @@ class CIMU {
      * vm_：前一次速度增量（加速度）可能有一次积分运算
      */
 
+    @Override
+    public CIMU clone() {
+        CIMU ret = new CIMU();
+
+        ret.nSamples = nSamples;
+        ret.prefirst = prefirst;
+        ret.phim = phim.clone();
+        ret.dvbm = dvbm.clone();
+        ret.wm_1 = wm_1.clone();
+        ret.vm_1 = vm_1.clone();
+
+        return ret;
+    }
+
     CIMU() {
         prefirst = 1;
     }

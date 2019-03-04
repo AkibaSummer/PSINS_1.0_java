@@ -10,6 +10,24 @@ public class CRAvar {
     double ts, R0[] = new double[RAMAX], Rmax[] = new double[RAMAX], Rmin[] = new double[RAMAX],
             tau[] = new double[RAMAX], r0[] = new double[RAMAX];
 
+    @Override
+    public CRAvar clone() {
+        CRAvar ret = new CRAvar();
+
+        ret.nR0 = nR0;
+        ret.maxCount = maxCount;
+        ret.Rmaxflag = Rmaxflag.clone();
+
+        ret.ts = ts;
+        ret.R0 = R0.clone();
+        ret.Rmax = Rmax.clone();
+        ret.Rmin = Rmin.clone();
+        ret.tau = tau.clone();
+        ret.r0 = r0.clone();
+
+        return ret;
+    }
+
     CRAvar() {
     }
 

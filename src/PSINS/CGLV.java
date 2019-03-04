@@ -1,14 +1,20 @@
 package PSINS;
 import PSINS.*;
+
+import static java.lang.Math.sqrt;
+
 public class CGLV {
     public double Re, f, g0, wie;                                            // the Earth's parameters
     public double e, e2;
     public double mg, ug, deg, min, sec, hur, ppm, ppmpsh;                    // commonly used units
     public double dps, dph, dpsh, dphpsh, ugpsh, ugpsHz, mpsh, mpspsh, secpsh;
 
-    private double sqrt(double d) {
-        return Math.sqrt(d);
+    @Override
+    public CGLV clone(){
+        CGLV ret=new CGLV(Re,f,wie,g0);
+        return ret;
     }
+
 
     CGLV() {
         this(6378137.0);
