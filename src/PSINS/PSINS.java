@@ -676,7 +676,7 @@ public final class PSINS {
         final int RAMAX = 10;
         int nR0, maxCount, Rmaxflag[] = new int[RAMAX];
         double ts, R0[] = new double[RAMAX], Rmax[] = new double[RAMAX], Rmin[] = new double[RAMAX],
-                tau[] = new double[RAMAX], r0[] = new doulbe[RAMAX];
+                tau[] = new double[RAMAX], r0[] = new double[RAMAX];
 
         CRAvar() {
         }
@@ -739,7 +739,7 @@ public final class PSINS {
         }
 
         void set(final CVect r0, final CVect tau, final CVect rmax, final CVect rmin) {
-//            const double *pr0 = r0.dd, *ptau = tau.dd, *prmax = rmax.dd, *prmin = rmin.dd;
+//            final double *pr0 = r0.dd, *ptau = tau.dd, *prmax = rmax.dd, *prmin = rmin.dd;
 //            for (int i = 0; i < nR0; i++, pr0++, ptau++, prmax++, prmin++)
 //                set(*pr0, *ptau, *prmax, *prmin, i);
             for (int i = 0; i < nR0; i++) {
@@ -768,7 +768,7 @@ public final class PSINS {
         }
 
         void Update(final CVect3 r, double ts) {
-//            const double *pr = &r.i;
+//            final double *pr = &r.i;
 //            for (int i = 0; i < 3; i++, pr++)
 //                Update(*pr, ts, i);
             Update(r.i, ts, 0);
@@ -777,19 +777,85 @@ public final class PSINS {
         }
 
         void Update(final CVect r, double ts) {
-//            const double *pr = r.dd;
+//            final double *pr = r.dd;
 //            for (int i = 0; i < nR0; i++, pr++)
 //                Update( * pr, ts, i);
-            for (int i=0;i<nR0;i++){
-                Update(r.dd[i],ts,i);
+            for (int i = 0; i < nR0; i++) {
+                Update(r.dd[i], ts, i);
             }
         }
 
-        double getElement(int k){
-            return Rmaxflag[k]!=0 ? INF : Math.sqrt(R0[k]);
+        double getElement(int k) {
+            return Rmaxflag[k] != 0 ? INF : Math.sqrt(R0[k]);
         }            // get element sqrt(R0(k))
     }
 
-    ;
+    public class CEarth {
+        double a, b;
+        double f, e, e2;
+        double wie;
 
+        double sl, sl2, sl4, cl, tl, RMh, RNh, clRNh, f_RMh, f_RNh, f_clRNh;
+        CVect3 pos, vn, wnie, wnen, wnin, gn, gcc;
+
+        CEarth() {
+            this(glv.Re);
+        }
+
+        CEarth(double a0) {
+            this(a0, glv.f);
+        }
+
+        CEarth(double a0, double f0) {
+            this(a0, f0, glv.g0);
+        }
+
+        CEarth(double a0, double f0, double g0) {
+            a = a0;
+            f = f0;
+            wie = glv.wie;
+            b = (1 - f) * a;
+            e = Math.sqrt(a * a - b * b) / a;
+            e2 = e * e;
+            gn = new CVect3(0, 0, -g0);
+        }
+
+        void Update(final CVect3 pos) {
+            Update(pos, new CVect3(0.0));
+        }
+
+        void Update(final CVect3 pos, final CVect3 vn) {
+            this.pos = pos;
+            this.vn = vn;
+            sl = Math.sin(pos.i);
+            cl = Math.cos(pos.i);
+            tl = sl / cl;
+            double sq = 1 - e2 * sl * sl, sq2 = Math.sqrt(sq);
+            RMh = a * (1 - e2) / sq / sq2 + pos.k;
+            f_RMh = 1.0 / RMh;
+            RNh = a / sq2 + pos.k;
+            clRNh = cl * RNh;
+            f_RNh = 1.0 / RNh;
+            f_clRNh = 1.0 / clRNh;
+            wnie.i = 0;
+            wnie.j = wie * cl;
+            wnie.k = wie * sl;
+            wnen.i = -vn.j * f_RMh;
+            wnen.j = vn.i * f_RNh;
+            wnen.k = wnen.j * tl;
+            wnin = wnie.add(wnen);
+            sl2 = sl * sl;
+            sl4 = sl2 * sl2;
+            gn.k = -(glv.g0 * (1 + 5.27094e-3 * sl2 + 2.32718e-5 * sl4) - 3.086e-6 * pos.k);
+            gcc = gn.sub(wnie.add(wnin).multi(vn));
+        }
+
+        CVect3 vn2dpos(final CVect3 vn) {
+            return vn2dpos(vn, 1.0);
+        }
+
+        CVect3 vn2dpos(final CVect3 vn, double ts) {
+            return new CVect3(vn.j * f_RMh, vn.i * f_clRNh, vn.k).multi(ts);
+        }
+    }
 }
