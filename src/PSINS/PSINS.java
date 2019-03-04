@@ -681,8 +681,21 @@ public final class PSINS {
             set(r0.k,tau.k,rmax.k,rmin.k);
         }
 
-//        void set(final CVect &r0, final CVect &tau, final CVect &rmax = On1, final CVect &rmin = On1);
-//
+        void set(final CVect r0, final CVect tau){
+            set(r0,tau,On1);
+        }
+        void set(final CVect r0, final CVect tau, final CVect rmax){
+            set(r0,tau,rmax,On1);
+        }
+        void set(final CVect r0, final CVect tau, final CVect rmax, final CVect rmin){
+//            const double *pr0 = r0.dd, *ptau = tau.dd, *prmax = rmax.dd, *prmin = rmin.dd;
+//            for (int i = 0; i < nR0; i++, pr0++, ptau++, prmax++, prmin++)
+//                set(*pr0, *ptau, *prmax, *prmin, i);
+            for (int i=0;i<nR0;i++){
+                set(r0.dd[i],tau.dd[i],rmax.dd[i],rmin.dd[i],i);
+            }
+        }
+
 //        void Update(double r, double ts, int i = 0);
 //
 //        void Update(final CVect3 &r, double ts);
