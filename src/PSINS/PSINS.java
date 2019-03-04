@@ -63,10 +63,10 @@ public final class PSINS {
         return Math.acos(range(x, -1.0, 1.0));
     }
     public static double CC180toC360(double yaw){
-        return ( (yaw)>0.0 ? (_2PI-(yaw)) : -(yaw) );   // counter-clockwise +-180deg -> clockwise 0~360deg for yaw
+        return ( (yaw)>0.0 ? (_2PI-(yaw)) : -(yaw) );   // counter-clockwise +-180deg . clockwise 0~360deg for yaw
     }
     public static double C360toCC180(double yaw){
-        return ( (yaw)>=PI ? (_2PI-(yaw)) : -(yaw) );   // clockwise 0~360deg -> counter-clockwise +-180deg for yaw
+        return ( (yaw)>=PI ? (_2PI-(yaw)) : -(yaw) );   // clockwise 0~360deg . counter-clockwise +-180deg for yaw
     }
 
 
@@ -312,17 +312,17 @@ public final class PSINS {
                     e20 * v.i + e21 * v.j + e22 * v.k);
         }                // matirx multiply vector
 
-//        friend CMat3 operator-(const CMat3 &m);                    // minus
-//        friend CMat3 operator~(const CMat3 &m);                    // matirx transposition
-//        friend CMat3 operator*(double f, const CMat3 &m);        // scale multiply matirx
-//        friend double det(const CMat3 &m);                        // matirx determination
-//        friend CMat3 inv(const CMat3 &m);                        // matirx inverse
-//        friend CVect3 diag(const CMat3 &m);                        // diagonal of a matrix
-//        friend CMat3 diag(const CVect3 &v);                        // diagonal matrix
-//        friend CMat3 dv2att(CVect3 &va1, const CVect3 &va2, CVect3 &vb1,
-//                        const CVect3 &vb2);  // attitude determination using double-vector
-//        friend CVect3 m2att(const CMat3 &Cnb);                    // DCM to Euler angles
-//        friend CQuat m2qua(const CMat3 &Cnb);                    // DCM to quaternion
+//        friend CMat3 operator-(final CMat3 &m);                    // minus
+//        friend CMat3 operator~(final CMat3 &m);                    // matirx transposition
+//        friend CMat3 operator*(double f, final CMat3 &m);        // scale multiply matirx
+//        friend double det(final CMat3 &m);                        // matirx determination
+//        friend CMat3 inv(final CMat3 &m);                        // matirx inverse
+//        friend CVect3 diag(final CMat3 &m);                        // diagonal of a matrix
+//        friend CMat3 diag(final CVect3 &v);                        // diagonal matrix
+//        friend CMat3 dv2att(CVect3 &va1, final CVect3 &va2, CVect3 &vb1,
+//                        final CVect3 &vb2);  // attitude determination using double-vector
+//        friend CVect3 m2att(final CMat3 &Cnb);                    // DCM to Euler angles
+//        friend CQuat m2qua(final CMat3 &Cnb);                    // DCM to quaternion
     }
 
     class CVect {
@@ -384,17 +384,17 @@ public final class PSINS {
 //
 //        void Set2(double f, ...);
 //
-//        CVect operator+(const CVect &v) const;        // vector addition
-//        CVect operator-(const CVect &v) const;        // vector subtraction
-//        CVect operator*(double f) const;            // vector multiply scale
-//        CVect &operator+=(const CVect &v);            // vector addition
-//        CVect &operator-=(const CVect &v);            // vector subtraction
+//        CVect operator+(final CVect &v) final;        // vector addition
+//        CVect operator-(final CVect &v) final;        // vector subtraction
+//        CVect operator*(double f) final;            // vector multiply scale
+//        CVect &operator+=(final CVect &v);            // vector addition
+//        CVect &operator-=(final CVect &v);            // vector subtraction
 //        CVect &operator*=(double f);                // vector multiply scale
-//        CVect operator*(const CMat &m) const;        // row-vector multiply matrix
-//        CMat operator*(const CVect &v) const;        // 1xn vector multiply nx1 vector, or nx1 vector multiply 1xn vector
+//        CVect operator*(final CMat &m) final;        // row-vector multiply matrix
+//        CMat operator*(final CVect &v) final;        // 1xn vector multiply nx1 vector, or nx1 vector multiply 1xn vector
 //        double &operator()(int r);                    // vector element
-//        friend CVect operator~(const CVect &v);        // vector transposition
-//        friend double norm(const CVect &v);            // vector norm
+//        friend CVect operator~(final CVect &v);        // vector transposition
+//        friend double norm(final CVect &v);            // vector norm
     }
 
     class CMat {
@@ -433,7 +433,7 @@ public final class PSINS {
             assert(row == m0.row && clm == m0.clm);
             CMat mtmp = new CMat(row, clm);
 //            double *p = mtmp.dd, *pEnd = &mtmp.dd[rc];
-//            const double *p1 = this->dd, *p2 = m0.dd;
+//            final double *p1 = this.dd, *p2 = m0.dd;
 //            while (p < pEnd) { *p++ = (*p1++) + (*p2++); }
             for (int i=0;i<rc;i++){
                 mtmp.dd[i]=dd[i]+m0.dd[i];
@@ -445,7 +445,7 @@ public final class PSINS {
             assert(row == m0.row && clm == m0.clm);
             CMat mtmp=new CMat(row, clm);
 //            double *p = mtmp.dd, *pEnd = &mtmp.dd[rc];
-//            const double *p1 = this->dd, *p2 = m0.dd;
+//            final double *p1 = this.dd, *p2 = m0.dd;
 //            while (p < pEnd) { *p++ = (*p1++) - (*p2++); }
             for (int i=0;i<rc;i++){
                 mtmp.dd[i]=dd[i]-m0.dd[i];
@@ -456,7 +456,7 @@ public final class PSINS {
         CMat multi(double f) {
             CMat mtmp=new CMat(row, clm);
 //            double *p = mtmp.dd, *pEnd = &mtmp.dd[rc];
-//            const double *p1 = this->dd;
+//            final double *p1 = this.dd;
 //            while (p < pEnd) { *p++ = (*p1++) * f; }
             for (int i=0;i<rc;i++){
                 mtmp.dd[i]=dd[i]*f;
@@ -468,10 +468,10 @@ public final class PSINS {
             assert(this.clm == v.row);
             CVect vtmp=new CVect(this.row);
 //            double *p = vtmp.dd, *pEnd = &vtmp.dd[vtmp.row];
-//            const double *p1ij = this->dd, *p2End = &v.dd[v.row];
+//            final double *p1ij = this.dd, *p2End = &v.dd[v.row];
 //            for (; p < pEnd; p++) {
 //                double f = 0.0;
-//                const double *p2j = v.dd;
+//                final double *p2j = v.dd;
 //                for (; p2j < p2End; p1ij++, p2j++) f += (*p1ij) * (*p2j);
 //                *p = f;
 //            }
@@ -485,30 +485,146 @@ public final class PSINS {
             return vtmp;
         }                // matirx multiply vector
 
-//        CMat operator*(const CMat &m) const;                // matirx multiplication
-//        CMat &operator+=(const CMat &m0);                    // matirx addition
-//        CMat &operator+=(const CVect &v);                    // matirx + diag(vector)
-//        CMat &operator-=(const CMat &m0);                    // matirx subtraction
+        CMat multi(final CMat m0) {
+            assert(this.clm == m0.row);
+            CMat mtmp=new CMat(this.row, m0.clm);
+            int m = this.row, k = this.clm, n = m0.clm;
+//            double *p = mtmp.dd;
+//            final double *p1i = this.dd, *p2 = m0.dd;
+//            for (int i = 0; i < m; i++, p1i += k) {
+//                for (int j = 0; j < n; j++) {
+//                double f = 0.0;
+//                final double *p1is = p1i, *p1isEnd = &p1i[k], *p2sj = &p2[j];
+//                for (; p1is < p1isEnd; p1is++, p2sj += n)
+//                    f += (*p1is) * (*p2sj);
+//                *p++ = f;
+//                }
+//            }
+            for (int i=0;i<m;i++){
+                for (int j=0;j<n;j++){
+                    double f=0;
+                    for (int ii=0;ii<k;ii++){
+                        f+=dd[ii]*m0.dd[j+n*ii];
+                    }
+                    mtmp.dd[i*m+j]=f;
+                }
+            }
+            return mtmp;
+        }                // matirx multiplication
+
+//        CMat &operator+=(final CMat &m0);                    // matirx addition
+//        CMat &operator+=(final CVect &v);                    // matirx + diag(vector)
+//        CMat &operator-=(final CMat &m0);                    // matirx subtraction
 //        CMat &operator*=(double f);                            // matirx multiply scale
 //        CMat &operator++();                                    // 1.0 + diagonal
-//        double &operator()(int r, int c);                    // get element m(r,c)
-//        void SetRow(int i, const CVect &v);                    // set i-row from vector
-//        void SetClm(int j, const CVect &v);                    // set j-column from vector
-//        CVect GetRow(int i) const;                            // get i-row from matrix
-//        CVect GetClm(int j) const;                            // get j-column from matrix
-//        void SetClmVect3(int i, int j, const CVect3 &v);    // set i...(i+2)-row&j-column from CVect3
-//        void SetRowVect3(int i, int j, const CVect3 &v);    // set i-row&j...(j+2)-column from CVect3
-//        void SetMat3(int i, int j, const CMat3 &m);            // set i...(i+2)-row&j...(j+2)-comumn from CMat3
-//        void ZeroRow(int i);                                // set i-row to 0
-//        void ZeroClm(int j);                                // set j-column to 0
-//        friend CMat array2mat(const double *f, int r, int c);    // convert array to mat
-//        friend CMat operator~(const CMat &m);                // matirx transposition
+
+        double getElement(int r, int c){
+            return dd[r * clm + c];
+        }                    // get element m(r,c)
+        void setElement(int r, int c,double n){
+            dd[r * clm + c] = n;
+        }                    // set element m(r,c)
+
+        void SetRow(int i, final CVect v){
+            assert(clm == v.clm);
+//            const double *p = v.dd;
+//            for (double *p1 = &dd[i * clm], *pEnd = p1 + clm; p1 < pEnd; p++, p1++)
+//                *p1 = *p;
+            for (int j=i*clm;j<i*clm+clm;j++){
+                dd[j]=v.dd[j];
+            }
+        }                    // set i-row from vector
+
+        void SetClm(int j, final CVect v){
+            assert(row == v.row);
+//            const double *p = v.dd;
+//            for (double *p1 = &dd[j], *pEnd = &dd[rc]; p1 < pEnd; p++, p1 += clm)
+//                *p1 = *p;
+            for (int i=0;i*clm+j<rc;i++){
+                dd[j+i*clm]=v.dd[i];
+            }
+        }                    // set j-column from vector
+
+        CVect GetRow(int i) {
+            CVect v=new CVect();
+            v.row = 1;
+            v.clm = clm;
+//            const double *p1 = &dd[i * clm], *pEnd = p1 + clm;
+//            for (double *p = v.dd; p1 < pEnd; p++, p1++) *p = *p1;
+            for (int j=0;j<clm;j++){
+                v.dd[j]=dd[i*clm+j];
+            }
+            return v;
+        }                          // get i-row from matrix
+
+        CVect GetClm(int j) {
+            CVect v=new CVect();
+            v.row = row;
+            v.clm = 1;
+//            const double *p1 = &dd[j], *pEnd = &dd[rc];
+//            for (double *p = v.dd; p1 < pEnd; p++, p1 += clm) *p = *p1;
+            for (int i=0;i<row;i++){
+                v.dd[i]=dd[j+i*clm];
+            }
+            return v;
+        }                            // get j-column from matrix
+
+        void SetClmVect3(int i, int j, final CVect3 v){
+//            double *p = &dd[i * clm + j];
+//            *p = v.i;
+//            p += clm;
+//            *p = v.j;
+//            p += clm;
+//            *p = v.k;
+            dd[i*clm+j]=v.i;
+            dd[++i*clm+j]=v.j;
+            dd[++i*clm+j]=v.k;
+        }    // set i...(i+2)-row&j-column from CVect3
+        void SetRowVect3(int i, int j, final CVect3 v){
+            //*(CVect3 *) &dd[i * clm + j] = v;
+            dd[i*clm+j]=v.i;
+            dd[i*clm+j+1]=v.j;
+            dd[i*clm+j+2]=v.j;
+        }    // set i-row&j...(j+2)-column from CVect3
+        void SetMat3(int i, int j, final CMat3 m){
+//            double *p = &dd[i * clm + j];
+//            *(CVect3 *) p = *(CVect3 *) &m.e00;
+//            p += clm;
+//            *(CVect3 *) p = *(CVect3 *) &m.e10;
+//            p += clm;
+//            *(CVect3 *) p = *(CVect3 *) &m.e20;
+            dd[i*clm+j]=m.e00;
+            dd[i*clm+j+1]=m.e01;
+            dd[i*clm+j+2]=m.e02;
+            dd[++i*clm+j]=m.e10;
+            dd[i*clm+j+1]=m.e11;
+            dd[i*clm+j+2]=m.e12;
+            dd[++i*clm+j]=m.e20;
+            dd[i*clm+j+1]=m.e21;
+            dd[i*clm+j+2]=m.e22;
+        }            // set i...(i+2)-row&j...(j+2)-comumn from CMat3
+
+        void ZeroRow(int i){
+//            for (double *p = &dd[i * clm], *pEnd = p + clm; p < pEnd; p++) *p = 0.0;
+            for (int j=i*clm;j<i*clm+clm;j++){
+                dd[j]=0;
+            }
+        }                                // set i-row to 0
+        void ZeroClm(int j){
+//            for (double *p = &dd[j], *pEnd = &dd[rc]; p < pEnd; p += clm) *p = 0.0;
+            for (int i=j;i<rc;i+=clm){
+                dd[i]=0;
+            }
+        }                                // set j-column to 0
+
+//        friend CMat array2mat(final double *f, int r, int c);    // convert array to mat
+//        friend CMat operator~(final CMat &m);                // matirx transposition
 //        friend void symmetry(CMat &m);                        // matirx symmetrization
 //        friend double norm1(CMat &m);                        // 1-norm
-//        friend CVect diag(const CMat &m);                    // diagonal of a matrix
-//        friend CMat diag(const CVect &v);                    // diagonal matrix
-//        friend void RowMul(CMat &m, const CMat &m0, const CMat &m1, int r); // m(r,:)=m0(r,:)*m1
-//        friend void RowMulT(CMat &m, const CMat &m0, const CMat &m1, int r); // m(r,:)=m0(r,:)*m1'
+//        friend CVect diag(final CMat &m);                    // diagonal of a matrix
+//        friend CMat diag(final CVect &v);                    // diagonal matrix
+//        friend void RowMul(CMat &m, final CMat &m0, final CMat &m1, int r); // m(r,:)=m0(r,:)*m1
+//        friend void RowMulT(CMat &m, final CMat &m0, final CMat &m1, int r); // m(r,:)=m0(r,:)*m1'
 //        #ifdef MAT_COUNT_STATISTIC
 //                static int iCount, iMax;
 //            ~CMat(void);
