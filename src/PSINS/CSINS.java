@@ -1,6 +1,5 @@
 package PSINS;
 
-import PSINS.*;
 
 import static PSINS.CMat3.m2att;
 import static PSINS.CQuat.q2mat;

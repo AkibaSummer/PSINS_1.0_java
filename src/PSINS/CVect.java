@@ -1,6 +1,5 @@
 package PSINS;
 
-import PSINS.*;
 
 import static PSINS.PSINS.MMD;
 

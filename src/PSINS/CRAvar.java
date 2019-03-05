@@ -1,7 +1,5 @@
 package PSINS;
 
-import PSINS.*;
-
 import static PSINS.PSINS.*;
 
 public class CRAvar {

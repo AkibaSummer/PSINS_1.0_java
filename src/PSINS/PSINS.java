@@ -1,7 +1,5 @@
 package PSINS;
 
-import PSINS.*;
-
 public final class PSINS {
     public static final double PI = 3.141592653589793238;
     public static final double PI_2 = PI / 2.0;

@@ -1,8 +1,6 @@
 package PSINS;
 
-import PSINS.*;
-
-import static PSINS.PSINS.EPS;
+import static PSINS.PSINS.*;
 import static PSINS.PSINS.PI;
 import static java.lang.Math.*;
 
@@ -90,8 +88,13 @@ public class CVect3 {
         return new CVect3(-i, -j, -k);
     }                // minus
 
-//        static double norm(final CVect3 v);                    // vector norm
-//        static double normXY(final CVect3 v);                    // vector norm or X  Y components
+    static double norm(final CVect3 v) {
+        return sqrt(v.i * v.i + v.j * v.j + v.k * v.k);
+    }                    // vector norm
+
+    static double normXY(final CVect3 v) {
+        return sqrt(v.i * v.i + v.j * v.j + v.k * v.k);
+    }                   // vector norm or X  Y components
 //        static CVect3 sqrt(final CVect3 v);                    // sqrt
 //        static double dot(final CVect3 v1, final CVect3 v2);    // vector dot multiplication
 //        static CMat3 a2mat(final CVect3 att);                    // Euler angles to DCM
@@ -123,7 +126,31 @@ public class CVect3 {
                 v.k, 0.0, -v.i,
                 -v.j, v.i, 0);
     }                    // askew matrix;
-    
-//        static CMat3 pos2Cen(final CVect3 pos);                // to geographical position matrix
-//        static CVect3 pp2vn(final CVect3 pos1, final CVect3 pos0, double ts, CEarth *pEth);  // position difference to velocity
+
+    static CMat3 pos2Cen(final CVect3 pos) {
+        double si = sin(pos.i), ci = cos(pos.i), sj = sin(pos.j), cj = cos(pos.j);
+        return new CMat3(-sj, -si * cj, ci * cj,
+                cj, -si * sj, ci * sj,
+                0, ci, si);    //Cen
+    }                // to geographical position matrix
+
+    static CVect3 pp2vn(final CVect3 pos1, final CVect3 pos0, double ts, CEarth pEth) {
+
+        double sl, cl, sl2, sq, sq2, RMh, RNh, clRNh;
+        if (pEth != null) {
+            RMh = pEth.RMh;
+            clRNh = pEth.clRNh;
+        } else {
+            sl = sin(pos0.i);
+            cl = cos(pos0.i);
+            sl2 = sl * sl;
+            sq = 1 - glv.e2 * sl2;
+            sq2 = sqrt(sq);
+            RMh = glv.Re * (1 - glv.e2) / sq / sq2 + pos0.k;
+            RNh = glv.Re / sq2 + pos0.k;
+            clRNh = cl * RNh;
+        }
+        CVect3 vn = pos1.sub(pos0);
+        return new CVect3(vn.j * clRNh / ts, vn.i * RMh / ts, vn.k / ts);
+    }  // position difference to velocity
 }

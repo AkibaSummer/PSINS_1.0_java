@@ -98,7 +98,7 @@ public class CMat3 {
 
     //        static CMat3 operator-(final CMat3 &m);                    // minus
 
-    CMat3 trans() {
+    CMat3 trans() { //operator~
         return new CMat3(e00, e10, e20, e01, e11, e21, e02, e12, e22);
     }                    // matirx transposition
 

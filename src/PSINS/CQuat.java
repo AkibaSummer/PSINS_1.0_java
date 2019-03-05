@@ -1,7 +1,5 @@
 package PSINS;
 
-import PSINS.*;
-
 import static PSINS.CVect3.rv2q;
 
 public class CQuat {
