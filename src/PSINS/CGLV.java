@@ -1,5 +1,4 @@
 package PSINS;
-import PSINS.*;
 
 import static java.lang.Math.sqrt;
 
@@ -10,8 +9,8 @@ public class CGLV {
     public double dps, dph, dpsh, dphpsh, ugpsh, ugpsHz, mpsh, mpspsh, secpsh;
 
     @Override
-    public CGLV clone(){
-        CGLV ret=new CGLV(Re,f,wie,g0);
+    public CGLV clone() {
+        CGLV ret = new CGLV(Re, f, wie, g0);
         return ret;
     }
 
@@ -53,7 +52,8 @@ public class CGLV {
         ugpsHz = ug / sqrt(1.0);
         ugpsh = ug / sqrt(hur);
         mpsh = 1 / sqrt(hur);
-        mpspsh = 1 / 1 / sqrt(hur);
+//        mpspsh = 1 / 1 / sqrt(hur);   //物理意义
+        mpspsh = 1 / sqrt(hur);
         ppmpsh = ppm / sqrt(hur);
         secpsh = sec / sqrt(hur);
     }

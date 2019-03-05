@@ -1,8 +1,7 @@
 package PSINS;
 
-import PSINS.*;
-
 import static PSINS.PSINS.glv;
+import static java.lang.Math.sqrt;
 
 public class CEarth {
     double a, b;
@@ -63,7 +62,7 @@ public class CEarth {
         f = f0;
         wie = glv.wie;
         b = (1 - f) * a;
-        e = Math.sqrt(a * a - b * b) / a;
+        e = sqrt(a * a - b * b) / a;
         e2 = e * e;
         gn = new CVect3(0, 0, -g0);
     }
@@ -78,7 +77,7 @@ public class CEarth {
         sl = Math.sin(pos.i);
         cl = Math.cos(pos.i);
         tl = sl / cl;
-        double sq = 1 - e2 * sl * sl, sq2 = Math.sqrt(sq);
+        double sq = 1 - e2 * sl * sl, sq2 = sqrt(sq);
         RMh = a * (1 - e2) / sq / sq2 + pos.k;
         f_RMh = 1.0 / RMh;
         RNh = a / sq2 + pos.k;

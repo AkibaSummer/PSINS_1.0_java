@@ -1,7 +1,5 @@
 package PSINS;
 
-import PSINS.*;
-
 import static PSINS.PSINS.MMD2;
 
 public class CMat {
@@ -10,7 +8,7 @@ public class CMat {
 
     @Override
     public CMat clone() {
-        CMat ret = new CMat(row,clm,dd);
+        CMat ret = new CMat(row, clm, dd);
         return ret;
     }
 

@@ -1,7 +1,5 @@
 package PSINS;
 
-import PSINS.*;
-
 import static PSINS.PSINS.asinEx;
 import static PSINS.PSINS.atan2Ex;
 

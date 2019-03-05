@@ -1,7 +1,5 @@
 package PSINS;
 
-import PSINS.*;
-
 class CIMU {
     public int nSamples, prefirst;
     public CVect3 phim, dvbm, wm_1, vm_1;

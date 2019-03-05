@@ -1,6 +1,7 @@
 package PSINS;
 
 import static PSINS.PSINS.*;
+import static java.lang.Math.sqrt;
 
 public class CRAvar {
     final int RAMAX = 10;
@@ -134,6 +135,6 @@ public class CRAvar {
     }
 
     double getElement(int k) {
-        return Rmaxflag[k] != 0 ? INF : Math.sqrt(R0[k]);
+        return Rmaxflag[k] != 0 ? INF : sqrt(R0[k]);
     }            // get element sqrt(R0(k))
 }
