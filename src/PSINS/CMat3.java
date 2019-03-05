@@ -1,7 +1,9 @@
 package PSINS;
 
+import static PSINS.CVect3.norm;
 import static PSINS.PSINS.asinEx;
 import static PSINS.PSINS.atan2Ex;
+import static java.lang.Math.sqrt;
 
 public class CMat3 {
     public double e00, e01, e02, e10, e11, e12, e20, e21, e22;
@@ -105,8 +107,14 @@ public class CMat3 {
 //        static CMat3 inv(final CMat3 &m);                        // matirx inverse
 //        static CVect3 diag(final CMat3 &m);                        // diagonal of a matrix
 //        static CMat3 diag(final CVect3 &v);                        // diagonal matrix
-//        static CMat3 dv2att(CVect3 &va1, final CVect3 &va2, CVect3 &vb1,
-//                        final CVect3 &vb2);  // attitude determination using double-vector
+    static CMat3 dv2att(CVect3 va1, final CVect3 va2, CVect3 vb1,
+                        final CVect3 vb2) {
+        CVect3 a = va1.multi(va2), b = vb1.multi(vb2), aa = a.multi(va1), bb = b.multi(vb1);
+        CMat3 Ma = new CMat3(va1.div(norm(va1)), a.div(norm(a)), aa.div(norm(aa))),
+                Mb = new CMat3(vb1.div(norm(vb1)), b.div(norm(b)), bb.div(norm(bb)));
+        return Ma.trans().multi(Mb);  //Cab
+    }  // attitude determination using double-vector
+
     static CVect3 m2att(final CMat3 Cnb) {
         CVect3 att = new CVect3();
         att.i = asinEx(Cnb.e21);
@@ -114,5 +122,39 @@ public class CMat3 {
         att.k = atan2Ex(-Cnb.e01, Cnb.e11);
         return att;
     }                    // DCM to Euler angles
-//        static CQuat m2qua(final CMat3 &Cnb);                    // DCM to quaternion
+
+    static CQuat m2qua(final CMat3 Cnb) {
+        double q0, q1, q2, q3, qq4;
+        if (Cnb.e00 >= Cnb.e11 + Cnb.e22) {
+            q1 = 0.5 * sqrt(1 + Cnb.e00 - Cnb.e11 - Cnb.e22);
+            qq4 = 4 * q1;
+            q0 = (Cnb.e21 - Cnb.e12) / qq4;
+            q2 = (Cnb.e01 + Cnb.e10) / qq4;
+            q3 = (Cnb.e02 + Cnb.e20) / qq4;
+        } else if (Cnb.e11 >= Cnb.e00 + Cnb.e22) {
+            q2 = 0.5 * sqrt(1 - Cnb.e00 + Cnb.e11 - Cnb.e22);
+            qq4 = 4 * q2;
+            q0 = (Cnb.e02 - Cnb.e20) / qq4;
+            q1 = (Cnb.e01 - Cnb.e10) / qq4;
+            q3 = (Cnb.e12 + Cnb.e21) / qq4;
+        } else if (Cnb.e22 >= Cnb.e00 + Cnb.e11) {
+            q3 = 0.5 * sqrt(1 - Cnb.e00 - Cnb.e11 + Cnb.e22);
+            qq4 = 4 * q3;
+            q0 = (Cnb.e10 - Cnb.e01) / qq4;
+            q1 = (Cnb.e02 + Cnb.e20) / qq4;
+            q2 = (Cnb.e12 + Cnb.e21) / qq4;
+        } else {
+            q0 = 0.5 * sqrt(1 + Cnb.e00 + Cnb.e11 + Cnb.e22);
+            qq4 = 4 * q0;
+            q1 = (Cnb.e21 - Cnb.e12) / qq4;
+            q2 = (Cnb.e02 - Cnb.e20) / qq4;
+            q3 = (Cnb.e10 - Cnb.e01) / qq4;
+        }
+        double nq = sqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);
+        q0 /= nq;
+        q1 /= nq;
+        q2 /= nq;
+        q3 /= nq;
+        return new CQuat(q0, q1, q2, q3);
+    }                    // DCM to quaternion
 }

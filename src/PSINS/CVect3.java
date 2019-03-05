@@ -95,11 +95,27 @@ public class CVect3 {
     static double normXY(final CVect3 v) {
         return sqrt(v.i * v.i + v.j * v.j + v.k * v.k);
     }                   // vector norm or X  Y components
-//        static CVect3 sqrt(final CVect3 v);                    // sqrt
+
+    //        static CVect3 sqrt(final CVect3 v);                    // sqrt
 //        static double dot(final CVect3 v1, final CVect3 v2);    // vector dot multiplication
 //        static CMat3 a2mat(final CVect3 att);                    // Euler angles to DCM
-//        static CQuat a2qua(double pitch, double roll, double yaw);    // Euler angles to quaternion
-//        static CQuat a2qua(final CVect3 att);                    // Euler angles to quaternion
+    static CQuat a2qua(double pitch, double roll, double yaw) {
+        pitch /= 2.0;
+        roll /= 2.0;
+        yaw /= 2.0;
+        double sp = sin(pitch), sr = sin(roll), sy = sin(yaw),
+                cp = cos(pitch), cr = cos(roll), cy = cos(yaw);
+        CQuat qnb = new CQuat();
+        qnb.q0 = cp * cr * cy - sp * sr * sy;
+        qnb.q1 = sp * cr * cy - cp * sr * sy;
+        qnb.q2 = cp * sr * cy + sp * cr * sy;
+        qnb.q3 = cp * cr * sy + sp * sr * cy;
+        return qnb;
+    }    // Euler angles to quaternion
+
+    static CQuat a2qua(final CVect3 att) {
+        return a2qua(att.i, att.j, att.k);
+    }                    // Euler angles to quaternion
 
     static CQuat rv2q(CVect3 rv) {
         final int F1 = (2 * 1);        // define: Fk=2^k*k!

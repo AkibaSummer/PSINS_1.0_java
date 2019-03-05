@@ -1,5 +1,9 @@
 package PSINS;
 
+import static PSINS.CMat3.m2att;
+import static PSINS.CVect3.norm;
+import static java.lang.Math.*;
+
 public final class PSINS {
     public static final double PI = 3.141592653589793238;
     public static final double PI_2 = PI / 2.0;
@@ -86,4 +90,30 @@ public final class PSINS {
     public final static CMat3 I33 = new CMat3(1, 0, 0, 0, 1, 0, 0, 0, 1), O33 = new CMat3(0, 0, 0, 0, 0, 0, 0, 0, 0);
     public final static CVect On1 = new CVect(MMD, 0.0);
     public final static CGLV glv = new CGLV();
+
+
+    public static CVect3 AlignCoarse(CVect3 wmm, CVect3 vmm, double latitude) {
+        double T11, T12, T13, T21, T22, T23, T31, T32, T33;
+        double cl = cos(latitude), tl = tan(latitude), nn;
+        CVect3 wbib = wmm.div(norm(wmm)), fb = vmm.div(norm(vmm));
+        T31 = fb.i;
+        T32 = fb.j;
+        T33 = fb.k;
+        T21 = wbib.i / cl - T31 * tl;
+        T22 = wbib.j / cl - T32 * tl;
+        T23 = wbib.k / cl - T33 * tl;
+        nn = sqrt(T21 * T21 + T22 * T22 + T23 * T23);
+        T21 /= nn;
+        T22 /= nn;
+        T23 /= nn;
+        T11 = T22 * T33 - T23 * T32;
+        T12 = T23 * T31 - T21 * T33;
+        T13 = T21 * T32 - T22 * T31;
+        nn = sqrt(T11 * T11 + T12 * T12 + T13 * T13);
+        T11 /= nn;
+        T12 /= nn;
+        T13 /= nn;
+        CMat3 Cnb = new CMat3(T11, T12, T13, T21, T22, T23, T31, T32, T33);
+        return m2att(Cnb);
+    }
 }

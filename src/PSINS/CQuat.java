@@ -73,8 +73,12 @@ public class CQuat {
     //        CQuat &operator*=(final CQuat &q);            // quaternion multiplication
 //        CQuat &operator-=(final CVect3 &phi);        // calculated quaternion delete misalign angles
 //        void normlize(CQuat *q);                    // quaternion norm
-//        static CQuat operator~(final CQuat &q);        // quaternion conjugate
-//        static CVect3 q2att(final CQuat &qnb);        // quaternion to Euler angles
+
+    CQuat trans() { //operator~
+        return new CQuat(q0, -q1, -q2, -q3);
+    }        // quaternion conjugate
+
+    //        static CVect3 q2att(final CQuat &qnb);        // quaternion to Euler angles
     static CMat3 q2mat(final CQuat qnb) {
         double q11 = qnb.q0 * qnb.q0, q12 = qnb.q0 * qnb.q1, q13 = qnb.q0 * qnb.q2, q14 = qnb.q0 * qnb.q3,
                 q22 = qnb.q1 * qnb.q1, q23 = qnb.q1 * qnb.q2, q24 = qnb.q1 * qnb.q3,
