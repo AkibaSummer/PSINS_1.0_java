@@ -124,10 +124,31 @@ public class CMat {
     }                // matirx multiplication
 
 //        CMat &operator+=(final CMat &m0);                    // matirx addition
-//        CMat &operator+=(final CVect &v);                    // matirx + diag(vector)
+
+    CMat selfadd(final CVect v) {//        operator+=
+        assert (row == v.row || clm == v.clm);
+        int row1 = row + 1;
+//        double *p = dd, *pEnd = &dd[rc];
+//        for (const double *p1 = v.dd;p<pEnd ; p += row1, p1++)
+//            *p += *p1;
+        for (int p = 0, p1 = 0; p < rc; p += row1, p1++) {
+            dd[p] += v.dd[p1];
+        }
+        return this;
+    }                    // matirx + diag(vector)
+
 //        CMat &operator-=(final CMat &m0);                    // matirx subtraction
 //        CMat &operator*=(double f);                            // matirx multiply scale
-//        CMat &operator++();                                    // 1.0 + diagonal
+
+    CMat selfadd1() {
+        int row1 = row + 1;
+//        for (double *p = dd, *pEnd = &dd[rc]; p < pEnd; p += row1)
+//            *p += 1.0;
+        for (int i = 0; i < rc; i += row1) {
+            dd[i] += 1.0;
+        }
+        return this;
+    }                                    // 1.0 + diagonal
 
     double getElement(int r, int c) {
         return dd[r * clm + c];
@@ -232,9 +253,32 @@ public class CMat {
         }
     }                                // set j-column to 0
 
-//        static CMat array2mat(final double *f, int r, int c);    // convert array to mat
-//        static CMat operator~(final CMat &m);                // matirx transposition
-//        static void symmetry(CMat &m);                        // matirx symmetrization
+    //        static CMat array2mat(final double *f, int r, int c);    // convert array to mat
+
+    CMat trans() {
+        CMat mtmp = new CMat(clm, row);
+        int pos = 0;
+        for (int i = 0; i < row; i++) {
+            for (int j = i; j < rc; j += row)
+                mtmp.dd[j] = dd[pos++];
+        }
+        return mtmp;
+    }                // matirx transposition
+
+    static void symmetry(CMat m) {
+        assert (m.row == m.clm);
+//            for (int i = 0; i < m.clm; i++) {
+//                double *prow = &m.dd[i * m.clm + i + 1], *prowEnd = &m.dd[i * m.clm + m.clm], *pclm = &m.dd[i * m.clm + i +
+//                        m.clm];
+//                for (; prow < prowEnd; prow++, pclm += m.clm) *prow = *pclm = (*prow + *pclm) * 0.5;
+//            }
+        for (int i = 0; i < m.clm; i++) {
+            for (int prow = i * m.clm + i + 1, prowEnd = i * m.clm + m.clm, pclm = i * m.clm + i + m.clm; prow < prowEnd; prow++, pclm += m.clm) {
+                m.dd[prow] = m.dd[pclm] = (m.dd[prow] + m.dd[pclm]) * 0.5;
+            }
+        }
+    }                        // matirx symmetrization
+
 //        static double norm1(CMat &m);                        // 1-norm
 //        static CVect diag(final CMat &m);                    // diagonal of a matrix
 //        static CMat diag(final CVect &v);                    // diagonal matrix
