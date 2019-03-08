@@ -4,7 +4,7 @@ import static PSINS.CMat.symmetry;
 import static PSINS.PSINS.*;
 import static java.lang.Math.sqrt;
 
-public class CKalman {
+public class CKalman {          //卡尔曼滤波器（假设系统噪声和量测噪声均为对角阵）
     double kftk;
     int nq, nr, measflag;
     CMat Ft, Pk, Hk;
