@@ -303,11 +303,50 @@ public class CMat {
         }
     }                        // matirx symmetrization
 
-//        static double norm1(CMat &m);                        // 1-norm
+    //        static double norm1(CMat &m);                        // 1-norm
 //        static CVect diag(final CMat &m);                    // diagonal of a matrix
 //        static CMat diag(final CVect &v);                    // diagonal matrix
-//        static void RowMul(CMat &m, final CMat &m0, final CMat &m1, int r); // m(r,:)=m0(r,:)*m1
-//        static void RowMulT(CMat &m, final CMat &m0, final CMat &m1, int r); // m(r,:)=m0(r,:)*m1'
+    static void RowMul(CMat m, final CMat m0, final CMat m1, int r) {
+        assert (m0.clm == m1.row);
+        int rc0 = r * m0.clm;
+//        double *p = &m.dd[rc0], *pEnd = p + m0.clm;
+//        const double *p0 = &m0.dd[rc0], *p0End = p0 + m0.clm, *p1j = m1.dd;
+//        for (; p < pEnd; p++) {
+//            double f = 0.0;
+//            const double *p0j = p0, *p1jk = p1j++;
+//            for (; p0j < p0End; p0j++, p1jk += m1.clm) f += ( * p0j) *( * p1jk);
+//            *p = f;
+//        }
+        int p = rc0, pEnd = p + m0.clm;
+        int p0 = rc0, p0End = p0 + m0.clm, p1j = 0;
+        for (; p < pEnd; p++) {
+            double f = 0.0;
+            int p0j = p0, p1jk = p1j++;
+            for (; p0j < p0End; p0j++, p1jk += m1.clm) f += m0.dd[p0j] * m1.dd[p1jk];
+            m.dd[p] = f;
+        }
+    } // m(r,:)=m0(r,:)*m1
+
+    static void RowMulT(CMat m, final CMat m0, final CMat m1, int r) {
+        assert (m0.clm == m1.clm);
+        int rc0 = r * m0.clm;
+//        double *p = &m.dd[rc0], *pEnd = p + m0.clm;
+//        const double *p0 = &m0.dd[rc0], *p0End = p0 + m0.clm, *p1jk = m1.dd;
+//        for (; p < pEnd; p++) {
+//            double f = 0.0;
+//            const double *p0j = p0;
+//            for (; p0j < p0End; p0j++, p1jk++) f += (*p0j) * (*p1jk);
+//        *p = f;
+//        }
+        int p = rc0, pEnd = p + m0.clm;
+        int p0 = rc0, p0End = p0 + m0.clm, p1jk = 0;
+        for (; p < pEnd; p++) {
+            double f = 0.0;
+            int p0j = p0;
+            for (; p0j < p0End; p0j++, p1jk++) f += m0.dd[p0j] * m1.dd[p1jk];
+            m.dd[p] = f;
+        }
+    } // m(r,:)=m0(r,:)*m1'
 //        #ifdef MAT_COUNT_STATISTIC
 //                static int iCount, iMax;
 //            ~CMat(void);
