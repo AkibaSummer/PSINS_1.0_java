@@ -7,16 +7,59 @@ import static PSINS.CVect3.askew;
 import static PSINS.CVect3.rv2q;
 import static PSINS.PSINS.*;
 
-class CSINS {
-    double nts, tk;
-    CEarth eth;
-    CIMU imu;
-    CQuat qnb;
-    CMat3 Cnb, Cnb0, Cbn, Kg, Ka;
-    CVect3 wib, fb, fn, an, web, wnb, att, vn, vb, pos, eb, db, _tauGyro, _tauAcc;
-    CMat3 Maa, Mav, Map, Mva, Mvv, Mvp, Mpv, Mpp;    // for etm
-    CVect3 vnL, posL;
-    CMat3 CW, MpvCnb;        // for lever
+public class CSINS {
+    public double nts, tk;
+    public CEarth eth;
+    public CIMU imu;
+    public CQuat qnb;
+    public CMat3 Cnb, Cnb0, Cbn, Kg, Ka;
+    public CVect3 wib, fb, fn, an, web, wnb, att, vn, vb, pos, eb, db, _tauGyro, _tauAcc;
+    public CMat3 Maa, Mav, Map, Mva, Mvv, Mvp, Mpv, Mpp;    // for etm
+    public CVect3 vnL, posL;
+    public CMat3 CW, MpvCnb;        // for lever
+
+
+    @Override
+    public CSINS clone() {
+        CSINS ret = new CSINS();
+        ret.nts = nts;
+        ret.tk = tk;
+        ret.eth = eth.clone();
+        ret.imu = imu.clone();
+        ret.qnb = qnb.clone();
+        ret.Cnb = Cnb.clone();
+        ret.Cnb0 = Cnb0.clone();
+        ret.Cbn = Cnb.clone();
+        ret.Kg = Kg.clone();
+        ret.Ka = Ka.clone();
+        ret.wib = wib.clone();
+        ret.fb = fb.clone();
+        ret.fn = fn.clone();
+        ret.an = an.clone();
+        ret.web = web.clone();
+        ret.wnb = wnb.clone();
+        ret.att = att.clone();
+        ret.vn = vn.clone();
+        ret.vb = vb.clone();
+        ret.pos = pos.clone();
+        ret.eb = eb.clone();
+        ret.db = db.clone();
+        ret._tauGyro = _tauGyro.clone();
+        ret._tauAcc = _tauAcc.clone();
+        ret.Maa = Maa.clone();
+        ret.Mav = Mav.clone();
+        ret.Map = Map.clone();
+        ret.Mva = Mva.clone();
+        ret.Mvv = Mvv.clone();
+        ret.Mvp = Mvp.clone();
+        ret.Mpv = Mpv.clone();
+        ret.Mpp = Mpp.clone();
+        ret.vnL = vnL.clone();
+        ret.posL = posL.clone();
+        ret.CW = CW.clone();
+        ret.MpvCnb = MpvCnb.clone();
+        return ret;
+    }
 
     CSINS() {
         this(qI);

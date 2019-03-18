@@ -5,12 +5,28 @@ import static PSINS.PSINS.*;
 import static java.lang.Math.sqrt;
 
 public class CKalman {          //卡尔曼滤波器（假设系统噪声和量测噪声均为对角阵）
-    double kftk;
-    int nq, nr, measflag;
-    CMat Ft, Pk, Hk;
-    CVect Xk, Zk, Qt, Rt, rts, Pmax, Pmin,
-            Rmax, Rmin, Rbeta, Rb,                // measurement noise R adaptive
-            FBTau, FBMax, FBXk, FBTotal;        // feedback control
+    public double kftk;
+    public int measflag;
+    public CMat Pk;
+    public CVect Zk;
+    public CVect Qt;
+    public CVect Rt;
+    public CVect Pmax;
+    public CVect Pmin;
+    public CVect Rmax;
+    public CVect Rmin;
+    public CVect Rb;                // measurement noise R adaptive
+    public CVect FBTau;
+    public CVect FBMax;
+    int nq;
+    int nr;
+    CMat Ft;
+    CMat Hk;
+    CVect Xk;
+    CVect rts;
+    CVect Rbeta;
+    CVect FBXk;
+    CVect FBTotal;        // feedback control
 
     CKalman(int nq0, int nr0) {
         assert (nq0 <= MMD && nr0 <= MMD);
@@ -108,7 +124,7 @@ public class CKalman {          //卡尔曼滤波器（假设系统噪声和量�
         }
     } // Rt adaptive
 
-    void SetMeasFlag(int flag) {
+    public void SetMeasFlag(int flag) {
         measflag = (flag == 0) ? 0 : (measflag | flag);
     }                    // measurement flag setting
 

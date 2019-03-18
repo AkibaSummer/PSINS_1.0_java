@@ -50,7 +50,7 @@ public class CMat {
         }
     }
 
-    void SetDiag2(double... f) {
+    public void SetDiag2(double... f) {
 //        va_list vl;
 //        va_start(vl, f);
 //        double *p = dd, *pEnd = &dd[rc];

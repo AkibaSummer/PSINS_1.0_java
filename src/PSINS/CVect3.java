@@ -1,7 +1,7 @@
 package PSINS;
 
-import static PSINS.PSINS.*;
 import static PSINS.PSINS.PI;
+import static PSINS.PSINS.*;
 import static java.lang.Math.*;
 
 public class CVect3 {
@@ -36,25 +36,25 @@ public class CVect3 {
         k = pdata[2];
     }
 
-    CVect3 add(final CVect3 v) {
+    public CVect3 add(final CVect3 v) {
         return new CVect3(this.i + v.i, this.j + v.j, this.k + v.k);
     }                 // vector addition
 
-    CVect3 sub(final CVect3 v) {
+    public CVect3 sub(final CVect3 v) {
         return new CVect3(this.i - v.i, this.j - v.j, this.k - v.k);
     }                 // vector subtraction
 
-    CVect3 multi(final CVect3 v) {
+    public CVect3 multi(final CVect3 v) {
         return new CVect3(this.j * v.k - this.k * v.j, this.k * v.i - this.i * v.k, this.i * v.j - this.j * v.i);
     }
 
     ;                // vector cross multiplication
 
-    CVect3 multi(double f) {
+    public CVect3 multi(double f) {
         return new CVect3(i * f, j * f, k * f);
     }                 // vector multiply scale
 
-    CVect3 div(double f) {
+    public CVect3 div(double f) {
         return new CVect3(i * f, j * f, k * f);
     }                 // vector divide scale
 
@@ -62,29 +62,29 @@ public class CVect3 {
 //        CVect3 operator-=(final CVect3 v);                    // vector subtraction
 //        CVect3 operator*=(double f);                            // vector multiply scale
 //        CVect3 operator/=(double f);                            // vector divide scale
-    boolean IsZero() {
+    public boolean IsZero() {
         return IsZero(EPS);
     }
 
-    boolean IsZero(double eps) {
+    public boolean IsZero(double eps) {
         return (i < eps && i > -eps && j < eps && j > -eps && k < eps && k > -eps);
     }                   // assert if all elements are zeros
 
-    boolean IsZeroXY() {
+    public boolean IsZeroXY() {
         return IsZeroXY(EPS);
     }
 
-    boolean IsZeroXY(double eps) {
+    public boolean IsZeroXY(double eps) {
         return (i < eps && i > -eps && j < eps && j > -eps);
     }                  // assert if xy-elements are zeros
 
-    boolean IsNaN() {
+    public boolean IsNaN() {
         return false; //(_isnan(i) || _isnan(j) || _isnan(k));
     }                   // assert if any element is NaN
 
     //        static CVect3 operator*(double f, final CVect3 v);        // scale multiply vector
 
-    CVect3 minus() {
+    public CVect3 minus() {
         return new CVect3(-i, -j, -k);
     }                // minus
 

@@ -3,7 +3,7 @@ package PSINS;
 import static PSINS.PSINS.*;
 
 public class CSINSKF extends CKalman {
-    CSINS sins;
+    public CSINS sins;
 
 
     CSINSKF(int nq0, int nr0) {
@@ -63,7 +63,7 @@ public class CSINSKF extends CKalman {
 
 //    virtual
 
-    void SetHk() {
+    public void SetHk() {
         // a example for SINS/GPS vn&pos measurement
         Hk.setElement(0, 3, 1.0);
         Hk.setElement(1, 4, 1.0);

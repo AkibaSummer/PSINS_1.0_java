@@ -5,7 +5,7 @@ import static PSINS.PSINS.MMD;
 
 public class CVect {        //N维向量
     public int row, clm;
-    double dd[] = new double[MMD];
+    public double[] dd = new double[MMD];
 
     @Override
     public CVect clone() {
@@ -65,7 +65,7 @@ public class CVect {        //N维向量
         dd[5] = v2.k;
     }
 
-    void Set(double... f) {
+    public void Set(double... f) {
         assert (row <= MMD && clm <= MMD);
 //        va_list vl;
 //        va_start(vl, f);
@@ -79,7 +79,7 @@ public class CVect {        //N维向量
         }
     }
 
-    void Set2(double... f) {
+    public void Set2(double... f) {
         assert (row <= MMD && clm <= MMD);
 //            va_list vl;
 //            va_start(vl, f);
@@ -119,7 +119,7 @@ public class CVect {        //N维向量
         return vtmp;
     }        // vector subtraction
 
-    CVect multi(double f) {
+    public CVect multi(double f) {
         CVect vtmp = new CVect(row, clm);
 //        const double *p1 = dd, *p1End = &dd[row > clm ? row : clm];
 //        for (double *p = vtmp.dd; p1 < p1End; p++, p1++) { *p = *p1 * f; }

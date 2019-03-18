@@ -97,11 +97,11 @@ public class CEarth {
         gcc = gn.sub(wnie.add(wnin).multi(vn));
     }
 
-    CVect3 vn2dpos(final CVect3 vn) {
+    public CVect3 vn2dpos(final CVect3 vn) {
         return vn2dpos(vn, 1.0);
     }
 
-    CVect3 vn2dpos(final CVect3 vn, double ts) {
+    public CVect3 vn2dpos(final CVect3 vn, double ts) {
         return new CVect3(vn.j * f_RMh, vn.i * f_clRNh, vn.k).multi(ts);
     }
 }

@@ -10,7 +10,7 @@ public class CSINSTDKF extends CSINSKF {
     CVect Pxz, Qk, Kk, Hi, tmeas;
     CVect3 meanfn;
 
-    CSINSTDKF(int nq0, int nr0) {
+    public CSINSTDKF(int nq0, int nr0) {
         super(nq0, nr0);
         iter = -2;
         ifn = 0;
