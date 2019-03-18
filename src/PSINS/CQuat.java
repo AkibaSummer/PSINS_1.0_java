@@ -46,6 +46,12 @@ public class CQuat {
     }    // true quaternion add misalign angles
 
 //        CQuat operator-(final CVect3 &phi) final;    // calculated quaternion delete misalign angles
+
+    CQuat sub(CVect3 phi) {
+        CQuat qtmp = rv2q(phi);
+        return qtmp.multi(this);
+    }
+
 //        CVect3 operator-(CQuat &quat) final;        // get misalign angles from calculated quaternion & true quaternion
 
     CQuat multi(final CQuat quat) {

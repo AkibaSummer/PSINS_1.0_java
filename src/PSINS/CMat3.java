@@ -96,7 +96,11 @@ public class CMat3 {
                 e20 * v.i + e21 * v.j + e22 * v.k);
     }                // matirx multiply vector
 
-    //        static CMat3 operator-(final CMat3 &m);                    // minus
+    //            static CMat3 operator-(final CMat3 &m);                    // minus
+    CMat3 minus() {
+        return new CMat3(-e00, -e01, -e02, -e10, -e11, -e12, -e20, -e21, -e22);
+    }
+
 
     CMat3 trans() { //operator~
         return new CMat3(e00, e10, e20, e01, e11, e21, e02, e12, e22);

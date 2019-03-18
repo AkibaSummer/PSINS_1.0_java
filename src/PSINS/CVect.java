@@ -64,9 +64,34 @@ public class CVect {
         dd[4] = v2.j;
         dd[5] = v2.k;
     }
-//        void Set(double f, ...);
-//
-//        void Set2(double f, ...);
+
+    void Set(double... f) {
+        assert (row <= MMD && clm <= MMD);
+//        va_list vl;
+//        va_start(vl, f);
+//        for (int i = 0, rc = row > clm ? row : clm; i < rc; i++) {
+//            dd[i] = f;
+//            f = va_arg(vl, double);
+//        }
+//        va_end(vl);
+        for (int i = 0, rc = row > clm ? row : clm; i < rc; i++) {
+            dd[i] = f[i];
+        }
+    }
+
+    void Set2(double... f) {
+        assert (row <= MMD && clm <= MMD);
+//            va_list vl;
+//            va_start(vl, f);
+//            for (int i = 0, rc = row > clm ? row : clm; i < rc; i++) {
+//                dd[i] = f * f;
+//                f = va_arg(vl, double);
+//            }
+//            va_end(vl);
+        for (int i = 0, rc = row > clm ? row : clm; i < rc; i++) {
+            dd[i] = f[i] * f[i];
+        }
+    }
 
     CVect add(final CVect v) {
         assert (row == v.row && clm == v.clm);

@@ -36,10 +36,34 @@ public class CMat {
         System.arraycopy(pf, 0, dd, 0, rc);
     }
 
-    //        void SetDiag(double f, ...);
-//
-//        void SetDiag2(double f, ...);
-//
+    void SetDiag(double... f) {
+//        va_list vl;
+//        va_start(vl, f);
+//        double *p = dd, *pEnd = &dd[rc];
+//        for (int row1 = row + 1; p < pEnd; p += row1) {
+//        *p = f;
+//            f = va_arg(vl, double);
+//        }
+//        va_end(vl);
+        for (int i = 0; i * (row + 1) < rc; i++) {
+            dd[i * (row + 1)] = f[i];
+        }
+    }
+
+    void SetDiag2(double... f) {
+//        va_list vl;
+//        va_start(vl, f);
+//        double *p = dd, *pEnd = &dd[rc];
+//        for (int row1 = row + 1; p < pEnd; p += row1) {
+//        *p = f * f;
+//            f = va_arg(vl, double);
+//        }
+//        va_end(vl);
+        for (int i = 0; i * (row + 1) < rc; i++) {
+            dd[i * (row + 1)] = f[i] * f[i];
+        }
+    }
+
     CMat add(final CMat m0) {
         assert (row == m0.row && clm == m0.clm);
         CMat mtmp = new CMat(row, clm);
