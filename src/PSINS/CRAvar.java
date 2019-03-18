@@ -3,7 +3,7 @@ package PSINS;
 import static PSINS.PSINS.*;
 import static java.lang.Math.sqrt;
 
-public class CRAvar {
+public class CRAvar {   //统计序列的方差
     final int RAMAX = 10;
     int nR0, maxCount, Rmaxflag[] = new int[RAMAX];
     double ts, R0[] = new double[RAMAX], Rmax[] = new double[RAMAX], Rmin[] = new double[RAMAX],

@@ -3,7 +3,7 @@ package PSINS;
 
 import static PSINS.PSINS.MMD;
 
-public class CVect {
+public class CVect {        //N维向量
     public int row, clm;
     double dd[] = new double[MMD];
 
